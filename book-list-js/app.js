@@ -18,7 +18,9 @@ const bookForm = document.getElementById('book-form'),
 bookForm.addEventListener('submit', addBook);
 theTable.addEventListener('click', deleteBook);
 
-// Functions
+// Functions ****
+
+// Add book function
 function addBook(e){
 
   const title = document.getElementById('title').value,  
@@ -40,6 +42,9 @@ function addBook(e){
     clearFields();
     // insert book instance into table
     insertBook(newBook);
+    // save to storage
+    saveToStorage(newBook);
+
   }
   e.preventDefault();
 }
@@ -86,6 +91,22 @@ function insertBook(newBook){
         cell1.innerHTML = newBook.author;
         cell2.innerHTML = newBook.isbn;
         cell3.appendChild(link);
+}
+
+// save book to storage
+function saveToStorage(newBook){
+  let books;
+  //if no books in storage
+  if(localStorage.getItem('books') === null){
+    books = [];    
+  } else {
+  // get books from Storage
+    books = JSON.parse(localStorage.getItem('books'));
+  }
+  // push new book to array of books
+  books.push(newBook);
+  // save all books to storage
+  localStorage.setItem('books',JSON.stringify(books));
 }
 
 // delete book
