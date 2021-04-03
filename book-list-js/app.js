@@ -11,10 +11,12 @@ class Book {
 let newBook;
 
 //Selectors
-const bookForm = document.getElementById('book-form');
+const bookForm = document.getElementById('book-form'),
+      theTable = document.querySelector('tbody');  
 
 //Event Listener
 bookForm.addEventListener('submit', addBook);
+theTable.addEventListener('click', deleteBook);
 
 // Functions
 function addBook(e){
@@ -72,11 +74,9 @@ function insertBook(newBook){
   const link = document.createElement('a');
   link.className = "delete-item";
   link.innerHTML = '<i class="far fa-trash-alt"></i>';
- 
-  // select table body
-  const theTable = document.querySelector('tbody'),       
+  
   // create row and cells
-        row = theTable.insertRow(0),
+  const row = theTable.insertRow(0),
         cell0 = row.insertCell(0),
         cell1 = row.insertCell(1),
         cell2 = row.insertCell(2),
@@ -86,4 +86,11 @@ function insertBook(newBook){
         cell1.innerHTML = newBook.author;
         cell2.innerHTML = newBook.isbn;
         cell3.appendChild(link);
+}
+
+// delete book
+function deleteBook (e){
+  if(e.target.parentElement.classList.contains('delete-item')){
+    e.target.parentElement.parentElement.parentElement.remove();
+  }
 }
