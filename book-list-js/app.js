@@ -15,6 +15,7 @@ const bookForm = document.getElementById('book-form'),
       theTable = document.querySelector('tbody');  
 
 //Event Listener
+window.addEventListener('DOMContentLoaded', loadStorage);
 bookForm.addEventListener('submit', addBook);
 theTable.addEventListener('click', deleteBook);
 
@@ -47,6 +48,36 @@ function addBook(e){
 
   }
   e.preventDefault();
+}
+
+// Load books from storage
+function loadStorage(){
+  let books;
+  //if no books in storage
+  if(localStorage.getItem('books') === null){
+    books = [];    
+  } else {
+  // get books from Storage
+    books = JSON.parse(localStorage.getItem('books'));
+  }
+  books.forEach(book => {
+    const link = document.createElement('a');
+    link.className = "delete-item";
+    link.innerHTML = '<i class="far fa-trash-alt"></i>';
+    
+    // create row and cells
+    const row = theTable.insertRow(0),
+          cell0 = row.insertCell(0),
+          cell1 = row.insertCell(1),
+          cell2 = row.insertCell(2),
+          cell3 = row.insertCell(3);        
+    // insert book instace into the cells
+          cell0.innerHTML = book.title;
+          cell1.innerHTML = book.author;
+          cell2.innerHTML = book.isbn;
+          cell3.appendChild(link);
+
+  })
 }
 
 // success and error message
@@ -113,5 +144,8 @@ function saveToStorage(newBook){
 function deleteBook (e){
   if(e.target.parentElement.classList.contains('delete-item')){
     e.target.parentElement.parentElement.parentElement.remove();
+
+    // remove from storage
+    // RermoveInStorage(e.target.parentElement.parentElement.parentElement);
   }
 }
