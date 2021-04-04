@@ -7,12 +7,14 @@ class Book {
   }  
 }
 
+class UI {}
+
 // variables 
 let newBook;
 
 //Selectors
 const bookForm = document.getElementById('book-form'),
-      theTable = document.querySelector('tbody');  
+      theTable = document.getElementById('book-list');  
 
 //Event Listener
 window.addEventListener('DOMContentLoaded', loadStorage);
@@ -57,22 +59,17 @@ function loadStorage(){
   // get books from Storage
     books = JSON.parse(localStorage.getItem('books'));
   }
-  books.forEach(book => {
-    const link = document.createElement('a');
-    link.className = "delete-item";
-    link.innerHTML = '<i class="far fa-trash-alt"></i>';
-    
-    // create row and cells
-    const row = theTable.insertRow(0),
-          cell0 = row.insertCell(0),
-          cell1 = row.insertCell(1),
-          cell2 = row.insertCell(2),
-          cell3 = row.insertCell(3);        
-    // insert book instace into the cells
-          cell0.innerHTML = book.title;
-          cell1.innerHTML = book.author;
-          cell2.innerHTML = book.isbn;
-          cell3.appendChild(link);
+  books.forEach(book => {    
+
+   // create table row    
+   const tr = document.createElement('tr');
+   // cells
+   tr.innerHTML = `<td>${book.title}</td>
+                   <td>${book.author}</td>
+                   <td>${book.isbn}</td>
+                   <td> <a href="#" class="delete-item"><i class="far fa-trash-alt"></i></a></td>`;
+   // insert row into the table body
+   theTable.appendChild(tr);
 
   });
 }
@@ -102,23 +99,17 @@ function clearFields(){
 }
 
 //crete row, elements and insert book
-function insertBook(newBook){
-  // create link to delete
-  const link = document.createElement('a');
-  link.className = "delete-item";
-  link.innerHTML = '<i class="far fa-trash-alt"></i>';
-  
-  // create row and cells
-  const row = theTable.insertRow(0),
-        cell0 = row.insertCell(0),
-        cell1 = row.insertCell(1),
-        cell2 = row.insertCell(2),
-        cell3 = row.insertCell(3);        
-  // insert book instace into the cells
-        cell0.innerHTML = newBook.title;
-        cell1.innerHTML = newBook.author;
-        cell2.innerHTML = newBook.isbn;
-        cell3.appendChild(link);
+function insertBook(book){
+    // create table row    
+    const tr = document.createElement('tr');
+    // cells
+    tr.innerHTML = `<td>${book.title}</td>
+                    <td>${book.author}</td>
+                    <td>${book.isbn}</td>
+                    <td> <a href="#" class="delete-item"><i class="far fa-trash-alt"></i></a></td>`;
+    // insert row into the table body
+    theTable.appendChild(tr);
+
 }
 
 // save book to storage
