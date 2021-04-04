@@ -21,7 +21,7 @@ theTable.addEventListener('click', deleteBook);
 
 // Functions ****
 
-// Add book function
+// Add book
 function addBook(e){
 
   const title = document.getElementById('title').value,  
@@ -30,13 +30,10 @@ function addBook(e){
 
   // validate empty fields
   if( title === "" || author === "" || isbn === ""){
-    message('Fill all the fields', "error");
-    setTimeout(removeMessage, 2000);        
+    message('Fill all the fields', "error");      
   } else {
     // Add success message
-    message('Book added', "success");
-    // remove success message
-    setTimeout(removeMessage, 2000);
+    message('Book added', "success");   
     //create instance
     newBook = new Book (title, author, isbn) ; 
     // Clear the fields    
@@ -89,13 +86,13 @@ function message(msg, classN) {
     
   // insert message into DOM
   const container = document.querySelector('.container');
-  container.insertBefore(msgDiv, bookForm);  
+  container.insertBefore(msgDiv, bookForm);
+  
+  setTimeout(function(){
+    document.querySelector('.message').remove();  
+  },3000);
 }
 
-// Remove Message
-function removeMessage (){
-  document.querySelector('.message').remove();  
-}
 
 // clear fields
 function clearFields(){
