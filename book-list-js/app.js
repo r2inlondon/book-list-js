@@ -77,7 +77,7 @@ function loadStorage(){
           cell2.innerHTML = book.isbn;
           cell3.appendChild(link);
 
-  })
+  });
 }
 
 // success and error message
@@ -146,6 +146,29 @@ function deleteBook (e){
     e.target.parentElement.parentElement.parentElement.remove();
 
     // remove from storage
-    // RermoveInStorage(e.target.parentElement.parentElement.parentElement);
+    removeInStorage(e.target.parentElement.parentElement.parentElement);
   }
+}
+
+// remove book from storage
+function removeInStorage(bookItem){
+  let books;
+  //if no books in storage
+  if(localStorage.getItem('books') === null){
+    books = [];    
+  } else {
+  // get books from Storage
+    books = JSON.parse(localStorage.getItem('books'));
+  }
+  
+  // delete book conditional
+  books.forEach(function (book, index) {
+    if(book.title === bookItem.children[0].innerText){
+      // delete book
+      books.splice(index, 1);
+    }
+    // save to localStorage
+    localStorage.setItem('books',JSON.stringify(books));
+  });
+
 }
