@@ -6,12 +6,13 @@ class GitHub {
 
   async getUser(user) {
     // await response to fetch users
-    const profieResponse = await fetch(`https://api.github.com/users/${user}?client_id=${this.clientID}&${this.clientSecret}`);
+    const profileResponse = await fetch(`https://api.github.com/users/${user}?client_id=${this.clientID}&${this.clientSecret}`);
   
     // only proceed once is resolved
-    const data = await profieResponse.json();
+    const userData = await profileResponse.json();
   
     //only proceed once second promise is resolved
-    return data
+    return userData
+    
   }
 }

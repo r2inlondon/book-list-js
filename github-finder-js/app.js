@@ -1,3 +1,7 @@
+// instace of giet search
+const gitSearch = new GitHub();
+const ui = new UI();
+
 document.querySelector('#searchUser').addEventListener('keyup',getUser);
 
 function getUser(event){
@@ -6,10 +10,16 @@ function getUser(event){
 
   // check that is not blank
   if(user !== ""){
-    const gitSearch = new GitHub();
-    gitSearch.getUser(user).then(theUser => console.log(theUser));
+    gitSearch.getUser(user)
+    .then(userData => {
+      if (userData.message === "Not Found"){
+        console.log('user not found');
+      } else {
+        ui.showProfile(userData);
+      }
+    });
     
   } else {
-    // user doesnt exist
+    // clear the profile
   }
 }
