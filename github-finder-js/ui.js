@@ -32,4 +32,28 @@ class UI {
       <div id="repos"></div>
     `    
   }
+  
+  notFound (msg){      
+    // Clear any alert
+    this.clearAlert();
+    // Create Alert Element, class and message
+    const div = document.createElement('div');
+    div.className = 'alert alert-danger';
+    div.innerText = `${msg}`;
+
+    // insert error message
+    const searchContainer = document.querySelector('.searchContainer'),
+          search = document.querySelector('.search');
+    searchContainer.insertBefore(div, search);
+    // Clear Alert after 2 seconds
+    setTimeout(this.clearAlert,2000);
+  }
+
+  // clear alert
+  clearAlert(){
+    const currentAlert = document.querySelector('.alert');
+    if (currentAlert){
+      currentAlert.remove();
+    }
+  }
 }

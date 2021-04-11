@@ -13,7 +13,8 @@ function getUser(event){
     gitSearch.getUser(user)
     .then(userData => {
       if (userData.message === "Not Found"){
-        console.log('user not found');
+        ui.notFound('User Not Found' )
+        // setTimeout(ui.clearAlert,2000);
       } else {
         ui.showProfile(userData);
       }
