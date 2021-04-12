@@ -11,16 +11,19 @@ function getUser(event){
   // check that is not blank
   if(user !== ""){
     gitSearch.getUser(user)
-    .then(userData => {
-      if (userData.message === "Not Found"){
+    .then(data => {      
+      // if blank show alert
+      if (data.profile.message === "Not Found"){
         ui.notFound('User Not Found' )
-        // setTimeout(ui.clearAlert,2000);
       } else {
-        ui.showProfile(userData);
+        // display user's profile
+        ui.showProfile(data.profile);
+        // display user's repos
+        ui.showRepos(data.repos);
       }
-    });
-    
+    });    
   } else {
     // clear the profile
+    ui.clearProfile();
   }
 }
