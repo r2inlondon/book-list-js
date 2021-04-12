@@ -43,11 +43,11 @@ class UI {
     repos.forEach(repo => {      
       fiveRepos += `
         <ui class="list-group">
-            <li class="list-group-item d-flex justify-content-around">
-              <div class="text-start">
+            <li class="list-group-item d-flex justify-content-between">
+              <div class="ml-5 text-start">
                 <a href="${repo.html_url}" target="_blank">${repo.name}</a>
               </div>
-              <div class="repo-info">
+              <div class="repo-info mr-5">
                 <span class="badge badge-primary">Stars:${repo.stargazers_count} </span>
                 <span class="badge badge-secondary">Watchers: ${repo.watchers}</span>
                 <span class="badge badge-success">Forks: ${repo.forks}</span>
