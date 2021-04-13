@@ -13,9 +13,9 @@
   <div class="container">
     <div class="row">
       <div class="col-md-6 mx-auto text-center bg-primary mt-5 p-5">
-        <h1 class="w-location">Location</h1>
-        <h3 class="text-muted" id="w-description">description</h3>
-        <h3 class="w-tempture">Tempture String</h3>
+        <h1 id="w-location"></h1>
+        <h3 class="text-muted" id="w-description"></h3>
+        <h3 id="w-tempture"></h3>
         <img id='w-icon'>
         <ul id="w-details" class="list-group mt-3">
           <li class="list-group-item text-info" id="w-humidity">Humidy</li>
@@ -26,7 +26,7 @@
         <hr>
         <!-- Button trigger modal -->
 <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#locModal">
-  Launch demo modal
+  Change City
 </button>
         
       </div>
@@ -51,7 +51,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-success">Save changes</button>
+        <button type="button" id="w-change-btn"class="btn btn-success">Save changes</button>
       </div>
     </div>
   </div>
