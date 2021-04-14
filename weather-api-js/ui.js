@@ -18,7 +18,7 @@ class UI {
           
     // Insert weather to DOM
     this.location.innerText = `${cityData.cityWeather.name}`
-    this.description.innerText = `${cityData.cityWeather.weather[0].description}`
+    this.description.innerText = `${cityData.cityWeather.weather[0].main}`
     this.tempture.innerText = `${wTemp} C`
     
 
@@ -34,8 +34,7 @@ class UI {
     // create attribute
     const att = document.createAttribute('src');
     // assign value to attribute
-    att.value = `http://openweathermap.org/img/wn/${icon}@2x.png`;
-                  
+    att.value = `http://openweathermap.org/img/wn/${icon}@2x.png`;                  
     // insert value to element
     image.setAttributeNode(att);
   }
