@@ -21,6 +21,7 @@ function findCity(){
     weather.getWeather(city)
       .then(cityData => {
         ui.showMain(cityData);
+        ui.showIcon(cityData.cityWeather.weather[0].icon);                    
       });
 
   }
