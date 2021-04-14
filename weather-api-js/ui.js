@@ -24,16 +24,7 @@ class UI {
     this.dewpoint.innerText = `Pressure: ${cityData.cityWeather.main.pressure}`
     this.feelsLike.innerText = `Feels Like: ${feelsLike} C` 
     this.wind.innerText = `Wind Speed: ${cityData.cityWeather.wind.speed} KM`
-  }
-
-  showIcon(icon){
-    //select img elemet
-    const image = document.getElementById('w-icon');
-    // create attribute
-    const att = document.createAttribute('src');
-    // assign value to attribute
-    att.value = `http://openweathermap.org/img/wn/${icon}@2x.png`;                  
-    // insert value to element
-    image.setAttributeNode(att);
+    this.icon.setAttribute('src',`http://openweathermap.org/img/wn/${cityData.cityWeather.weather[0].icon}@2x.png`);
+    
   }
 }

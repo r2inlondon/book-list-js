@@ -23,7 +23,7 @@ function findCity(){
     weather.getWeather(city.value)
       .then(cityData => {       
         ui.showMain(cityData);
-        ui.showIcon(cityData.cityWeather.weather[0].icon);                    
+        
       });
     // save to local storage
     Store.saveCity(city.value);
