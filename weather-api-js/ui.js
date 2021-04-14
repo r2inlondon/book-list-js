@@ -17,11 +17,9 @@ class UI {
           feelsLike = Math.trunc(`${cityData.cityWeather.main.feels_like}`);
           
     // Insert weather to DOM
-    this.location.innerText = `${cityData.cityWeather.name}`
-    this.description.innerText = `${cityData.cityWeather.weather[0].main}`
-    this.tempture.innerText = `${wTemp} C`
-    
-
+    this.location.innerText = cityData.cityWeather.name;
+    this.description.innerText = cityData.cityWeather.weather[0].main;
+    this.tempture.innerText = `${wTemp} C`    
     this.humidity.innerText = `Humidity: ${cityData.cityWeather.main.humidity}`
     this.dewpoint.innerText = `Pressure: ${cityData.cityWeather.main.pressure}`
     this.feelsLike.innerText = `Feels Like: ${feelsLike} C` 

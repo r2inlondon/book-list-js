@@ -15,6 +15,6 @@ class Store {
   }
 
   static saveCity(city){
-    localStorage.setItem('city',JSON.stringify(city));
+    localStorage.setItem('city',city);
   }
 }

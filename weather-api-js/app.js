@@ -30,11 +30,13 @@ function findCity(){
   }
   // clear input field in form
   city.value = "";
+  // close Modal
+  $('#locModal').modal('hide');
 }
 
 // retriving city from Local storage
 function getStorage(){
-  let city = JSON.parse(localStorage.getItem('city'));
+  let city = localStorage.getItem('city');
 
   // set default city if Storage is empty
   if(city === null ){
