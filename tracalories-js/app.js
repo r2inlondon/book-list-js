@@ -21,17 +21,40 @@ const ItemCtrl = (function (){
   }
   // Public Mehotds
   return {
+
+    getItems: function(){
+      return data.items;
+    },
+
     logData: function(){
       return data;
     }
   }
-
 })();
 
 // UI controller
 const UICtrl = (function (){
+  const UISelectors = {
+    itemList: '#item-list'
+  }
 
-  // Public Mehotds
+  // PUBLIC Mehotds
+  return {
+    populateList: function(items){
+      let html = '';
+
+      items.forEach(item => {
+        html += ` 
+        <li class="collection-item" id="item${item.id}">
+        <strong>${item.name}: </strong> <em>${item.calories} Calories</em>
+        <a href="#" class="secondary-content">
+          <i class="edit-item fa fa-pencil"></i>
+        </a>
+      </li>`
+      });
+      document.querySelector(UISelectors.itemList).innerHTML = html;
+    }
+  }
 
 })();
 
@@ -42,9 +65,10 @@ const AppCtrl = (function (ItemCtrl,UICtrl ){
   return {
     init: function() {
       ItemCtrl.logData();
-    }
       
-    
+      const items = ItemCtrl.getItems();
+      UICtrl.populateList(items);
+    }          
   }
 
 })(ItemCtrl,UICtrl);
