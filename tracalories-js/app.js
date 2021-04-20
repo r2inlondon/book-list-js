@@ -12,9 +12,9 @@ const ItemCtrl = (function (){
   //data Structure
   const data = {
     items: [
-      {id: 0, name: "Steak", calories: 450},
-      {id: 1, name: "HotDog", calories: 650},
-      {id: 2, name: "Burger", calories: 750}
+      // {id: 0, name: "Steak", calories: 450},
+      // {id: 1, name: "HotDog", calories: 650},
+      // {id: 2, name: "Burger", calories: 750}
     ],
     currentItem: null,
     totalCalories: 0
@@ -46,7 +46,7 @@ const ItemCtrl = (function (){
   }
 })();
 
-// UI controller
+/// UI controller
 const UICtrl = (function (){
   
   // select items
@@ -59,7 +59,6 @@ const UICtrl = (function (){
 
   // PUBLIC Mehotds
   return {
-   
     // Populate lists
     populateList: function(items){
       let html = '';
@@ -89,16 +88,27 @@ const UICtrl = (function (){
     addItem: function(item){
       // create the LI with respective class
       const li = document.createElement('li');
+      // add classes to LI
       li.className = `collection-item id="item-${item.id}"`
+      // add the inner HTML elements in the LI
       li.innerHTML = `<strong>${item.name}: </strong> <em>${item.calories} Calories</em>
       <a href="#" class="secondary-content">
         <i class="edit-item fa fa-pencil"></i>
       </a>`
-      
+      //insert LI into DOM
       document.querySelector(UISelectors.itemList).insertAdjacentElement('beforeend',li);
-
+    },
+    // Clear input fields in form
+    clearInput: function(){
+      document.querySelector(UISelectors.itemName).value = "",
+      document.querySelector(UISelectors.itemCalories).value = ""
+    },
+    clearLineBreak: function(){
+      document.querySelector(UISelectors.itemList).style.display = "none";
+    },
+    addLineBreak: function(){
+      document.querySelector(UISelectors.itemList).style.display = "block";
     }
-
   }
 
 })();
@@ -126,6 +136,12 @@ const AppCtrl = (function (ItemCtrl,UICtrl ){
       
       // Add new Item to UI
       UICtrl.addItem(newItem);
+
+      //add the line break back in item-list
+      UICtrl.addLineBreak();
+
+      //clear form inputs
+      UICtrl.clearInput();
     }
 
     e.preventDefault();
@@ -137,9 +153,13 @@ const AppCtrl = (function (ItemCtrl,UICtrl ){
       // Fetch items from Data Structure
       const items = ItemCtrl.getItems();
 
-      // populiate items with items
-      UICtrl.populateList(items);
-
+      // check for items
+      if(items.length === 0){
+        UICtrl.clearLineBreak();
+      }else{
+        // populate items with items        
+        UICtrl.populateList(items);  
+      }
       // load event listeners
       loadEventListeners();
     }          
