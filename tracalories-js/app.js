@@ -39,6 +39,16 @@ const ItemCtrl = (function (){
 
       return newItem;
     },
+    getTotalCalories: function(){
+      let total = 0;
+      data.items.forEach(function(item){
+        total += parseInt(item.calories);        
+      })
+      // set total calories in data structure
+      data.totalCalories = total;
+      
+      return data.totalCalories;
+    },
     // method use for testing
     logData: function(){
       return data;
@@ -54,7 +64,8 @@ const UICtrl = (function (){
     itemList: '#item-list',
     addBtn: '.add-btn',
     itemName: '#item-name',
-    itemCalories: '#item-calories'
+    itemCalories: '#item-calories',
+    totalCalories: '.total-calories'
   }
 
   // PUBLIC Mehotds
@@ -84,7 +95,7 @@ const UICtrl = (function (){
         name: document.querySelector(UISelectors.itemName).value,
         calories: document.querySelector(UISelectors.itemCalories).value,
       }      
-    }, // Inser new item to DOM.
+    }, // Insert new item to DOM.
     addItem: function(item){
       // create the LI with respective class
       const li = document.createElement('li');
@@ -97,6 +108,10 @@ const UICtrl = (function (){
       </a>`
       //insert LI into DOM
       document.querySelector(UISelectors.itemList).insertAdjacentElement('beforeend',li);
+    },
+    // insert Total Calories into DOM
+    showCaloriesTotal: function(totalCalories){
+      document.querySelector(UISelectors.totalCalories).innerText = totalCalories;
     },
     // Clear input fields in form
     clearInput: function(){
@@ -136,6 +151,12 @@ const AppCtrl = (function (ItemCtrl,UICtrl ){
       
       // Add new Item to UI
       UICtrl.addItem(newItem);
+
+      // get total calories
+      const totalCalories = ItemCtrl.getTotalCalories();
+
+      // add total calories in UI
+      UICtrl.showCaloriesTotal(totalCalories);
 
       //add the line break back in item-list
       UICtrl.addLineBreak();
