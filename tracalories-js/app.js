@@ -39,6 +39,19 @@ const ItemCtrl = (function (){
 
       return newItem;
     },
+    // Get item to edit
+    itemToEdit: function(id){
+      let found;
+
+      data.items.forEach(item => {
+        if(item.id === id){
+          found = item;
+        }
+      });
+      data.currentItem = found;
+
+      return data.currentItem
+    },
     getTotalCalories: function(){
       let total = 0;
       data.items.forEach(function(item){
@@ -63,7 +76,12 @@ const UICtrl = (function (){
   const UISelectors = {
     itemList: '#item-list',
     addBtn: '.add-btn',
+    updateBtn: '.update-btn',
+    deleteBtn: '.delete-btn',
+    backBtn: '.back-btn',
     itemName: '#item-name',
+    itemList: '#item-list',
+    secondaryContent: '.secondary-content',
     itemCalories: '#item-calories',
     totalCalories: '.total-calories'
   }
@@ -100,7 +118,9 @@ const UICtrl = (function (){
       // create the LI with respective class
       const li = document.createElement('li');
       // add classes to LI
-      li.className = `collection-item id="item-${item.id}"`
+      li.className = "collection-item";
+      // add ID to LI
+      li.setAttribute('id',`item-${item.id}`);
       // add the inner HTML elements in the LI
       li.innerHTML = `<strong>${item.name}: </strong> <em>${item.calories} Calories</em>
       <a href="#" class="secondary-content">
@@ -109,6 +129,13 @@ const UICtrl = (function (){
       //insert LI into DOM
       document.querySelector(UISelectors.itemList).insertAdjacentElement('beforeend',li);
     },
+    // Show the item to Edit
+    showItemToEdit: function(item){  
+      // hide add meal btn and unhide the other buttons
+      UICtrl.setAddEdit();
+      document.querySelector(UISelectors.itemName).value = item.name;
+      document.querySelector(UISelectors.itemCalories).value = item.calories;      
+    },    
     // insert Total Calories into DOM
     showCaloriesTotal: function(totalCalories){
       document.querySelector(UISelectors.totalCalories).innerText = totalCalories;
@@ -117,12 +144,23 @@ const UICtrl = (function (){
     clearInput: function(){
       document.querySelector(UISelectors.itemName).value = "",
       document.querySelector(UISelectors.itemCalories).value = ""
-    },
+    },    
     clearLineBreak: function(){
       document.querySelector(UISelectors.itemList).style.display = "none";
     },
     addLineBreak: function(){
       document.querySelector(UISelectors.itemList).style.display = "block";
+    },
+    setAddMode: function(){
+      document.querySelector(UISelectors.updateBtn).style.display = "none";
+      document.querySelector(UISelectors.deleteBtn).style.display = "none";
+      document.querySelector(UISelectors.backBtn).style.display = "none";
+    },
+    setAddEdit: function(){
+      document.querySelector(UISelectors.updateBtn).style.display = "inline";
+      document.querySelector(UISelectors.deleteBtn).style.display = "inline";
+      document.querySelector(UISelectors.backBtn).style.display = "inline";
+      document.querySelector(UISelectors.addBtn).style.display = "none";
     }
   }
 
@@ -136,12 +174,15 @@ const AppCtrl = (function (ItemCtrl,UICtrl ){
     // Get uiselectors
     const selectors = UICtrl.getSelectors();
         
-    // event for add meal button
-    document.querySelector(selectors.addBtn).addEventListener('click', addMeal);
+    // event to add item
+    document.querySelector(selectors.addBtn).addEventListener('click', addItem);
+
+    // event to edit item
+    document.querySelector(selectors.itemList).addEventListener('click', updateItem);    
     
   }
 
-  const addMeal = function(e){
+  const addItem = function(e){
     
     // get user's input from form.
     const input = UICtrl.getUserInput();
@@ -163,6 +204,21 @@ const AppCtrl = (function (ItemCtrl,UICtrl ){
 
       //clear form inputs
       UICtrl.clearInput();
+    }    
+    e.preventDefault();
+  }
+
+  const updateItem = function(e){
+    if(e.target.classList.contains('edit-item')){
+      // Get list item id (item-0, item-1)
+      const itemId = e.target.parentElement.parentElement.id;
+
+      const itemIdArry = itemId.split('-');
+
+      const item = ItemCtrl.itemToEdit(parseInt(itemIdArry[1]));
+
+      UICtrl.showItemToEdit(item);
+      
     }
 
     e.preventDefault();
@@ -171,6 +227,9 @@ const AppCtrl = (function (ItemCtrl,UICtrl ){
   // Public Mehotds
   return {
     init: function() {
+      // Set form ready to start adding items
+      UICtrl.setAddMode();
+
       // Fetch items from Data Structure
       const items = ItemCtrl.getItems();
 
