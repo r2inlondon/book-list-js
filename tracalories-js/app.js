@@ -65,7 +65,20 @@ const ItemCtrl = (function (){
       });
       return found;
     },
+    // item to delete via delete btn
+    itemToDelete: function(){                  
+      // get IDs from all items
+      let AllId = data.items.map(item => {
+         return item.id;        
+      });
+      // find the index of the current id
+      const index = AllId.indexOf(data.currentItem.id);
+      // remove item
+      data.items.splice(index, 1);
+      
+      return data.currentItem
 
+    },
     getTotalCalories: function(){
       let total = 0;
       data.items.forEach(function(item){
@@ -170,7 +183,25 @@ const UICtrl = (function (){
         }
       });
 
-    },    
+    },
+    // remove item from list
+    deleteItem: function(item){
+      let listItems = document.querySelectorAll(UISelectors.listItems);
+
+      //turn node into Array
+      listItems = Array.from(listItems);
+
+      listItems.forEach(function(meal){
+        const itemID = meal.getAttribute('id');
+
+        if(itemID === `item-${item.id}`){
+          
+          document.querySelector(`#${itemID}`).remove();
+        }
+      });
+
+    },
+
     // insert Total Calories into DOM
     showCaloriesTotal: function(totalCalories){
       document.querySelector(UISelectors.totalCalories).innerText = totalCalories;
@@ -190,6 +221,7 @@ const UICtrl = (function (){
       document.querySelector(UISelectors.updateBtn).style.display = "none";
       document.querySelector(UISelectors.deleteBtn).style.display = "none";
       document.querySelector(UISelectors.backBtn).style.display = "none";
+      document.querySelector(UISelectors.addBtn).style.display = "inline";
     },
     setAddEdit: function(){
       document.querySelector(UISelectors.updateBtn).style.display = "inline";
@@ -220,14 +252,17 @@ const AppCtrl = (function (ItemCtrl,UICtrl ){
       }
     });
 
-    // event to select item to edit
+    // event to select item to edit from pencil
     document.querySelector(selectors.itemList).addEventListener('click', itemEditClick);    
 
-    // event to submit update
+    // event to submit via the update button
     document.querySelector(selectors.updateBtn).addEventListener('click', itemEditSubmit);    
 
      // event to back button submit
-     document.querySelector(selectors.backBtn).addEventListener('click', clearAllFields);    
+     document.querySelector(selectors.backBtn).addEventListener('click', clearAllFields); 
+     
+     // event to delete 
+    document.querySelector(selectors.deleteBtn).addEventListener('click', itemDeleteSubmit);  
   }
 
 
@@ -257,6 +292,7 @@ const AppCtrl = (function (ItemCtrl,UICtrl ){
     e.preventDefault();
   }
 
+  // Selected item to edit from pencil
   const itemEditClick = function(e){
     if(e.target.classList.contains('edit-item')){
       // Get list item id (item-0, item-1)
@@ -270,7 +306,8 @@ const AppCtrl = (function (ItemCtrl,UICtrl ){
     }
     e.preventDefault();
   }
-  
+
+  // submit update via the update button
   const itemEditSubmit = function(e){
     const input = UICtrl.getUserInput(); 
      
@@ -284,14 +321,41 @@ const AppCtrl = (function (ItemCtrl,UICtrl ){
     // add total calories in UI
     UICtrl.showCaloriesTotal(totalCalories);
 
+    // Set form ready to start adding items
+    UICtrl.setAddMode();
+
     // Clear form
-    UICtrl.clearInput
+    UICtrl.clearInput();
     
     e.preventDefault();
   }
+
   // Clear button function
   const clearAllFields = function(e){
     UICtrl.clearInput();
+    e.preventDefault();
+  }
+
+  // delete button function
+  const itemDeleteSubmit = (e) => { 
+
+    //delete item from data structure
+    const deletedtItem = ItemCtrl.itemToDelete();
+
+    // delete item or li element from list
+    UICtrl.deleteItem(deletedtItem);
+    // Clear form
+    UICtrl.clearInput();
+
+    // Set form ready to start adding items
+    UICtrl.setAddMode();
+
+   // get total calories
+   const totalCalories = ItemCtrl.getTotalCalories();
+
+   // add total calories in UI
+   UICtrl.showCaloriesTotal(totalCalories);
+
     e.preventDefault();
   }
   
