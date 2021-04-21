@@ -95,7 +95,7 @@ const UICtrl = (function (){
     deleteBtn: '.delete-btn',
     backBtn: '.back-btn',
     itemName: '#item-name',    
-    secondaryContent: '.secondary-content',
+    // secondaryContent: '.secondary-content',
     itemCalories: '#item-calories',
     totalCalories: '.total-calories'
   }
@@ -178,7 +178,7 @@ const UICtrl = (function (){
     // Clear input fields in form
     clearInput: function(){
       document.querySelector(UISelectors.itemName).value = "",
-      document.querySelector(UISelectors.itemCalories).value = ""
+      document.querySelector(UISelectors.itemCalories).value = ""      
     },    
     clearLineBreak: function(){
       document.querySelector(UISelectors.itemList).style.display = "none";
@@ -225,8 +225,11 @@ const AppCtrl = (function (ItemCtrl,UICtrl ){
 
     // event to submit update
     document.querySelector(selectors.updateBtn).addEventListener('click', itemEditSubmit);    
-    
+
+     // event to back button submit
+     document.querySelector(selectors.backBtn).addEventListener('click', clearAllFields);    
   }
+
 
   const addItem = function(e){
     
@@ -286,10 +289,15 @@ const AppCtrl = (function (ItemCtrl,UICtrl ){
     
     e.preventDefault();
   }
+  // Clear button function
+  const clearAllFields = function(e){
+    UICtrl.clearInput();
+    e.preventDefault();
+  }
   
   // Public Mehotds
-  return {
-    init: function() {
+  return {    
+    init: function() {            
       // Set form ready to start adding items
       UICtrl.setAddMode();
 
@@ -304,7 +312,7 @@ const AppCtrl = (function (ItemCtrl,UICtrl ){
         UICtrl.populateList(items);  
       }
       // load event listeners
-      loadEventListeners();
+      loadEventListeners();      
     }          
   }
 
