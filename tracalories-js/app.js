@@ -39,7 +39,7 @@ const ItemCtrl = (function (){
 
       return newItem;
     },
-    // Get item to edit
+    // Get item to edit from the pencil
     itemToEdit: function(id){
       let found;
 
@@ -51,7 +51,21 @@ const ItemCtrl = (function (){
       data.currentItem = found;
 
       return data.currentItem
+    }, 
+    // item from update meal button
+    sendItemToUpdate: function(input){
+      let found;
+
+      data.items.forEach(item => {
+        if(item.id === data.currentItem.id){
+          item.name = input.name;
+          item.calories = input.calories;
+          found = item;                    
+        }
+      });
+      return found;
     },
+
     getTotalCalories: function(){
       let total = 0;
       data.items.forEach(function(item){
@@ -75,12 +89,12 @@ const UICtrl = (function (){
   // select items
   const UISelectors = {
     itemList: '#item-list',
+    listItems:'#item-list li',
     addBtn: '.add-btn',
     updateBtn: '.update-btn',
     deleteBtn: '.delete-btn',
     backBtn: '.back-btn',
-    itemName: '#item-name',
-    itemList: '#item-list',
+    itemName: '#item-name',    
     secondaryContent: '.secondary-content',
     itemCalories: '#item-calories',
     totalCalories: '.total-calories'
@@ -135,6 +149,27 @@ const UICtrl = (function (){
       UICtrl.setAddEdit();
       document.querySelector(UISelectors.itemName).value = item.name;
       document.querySelector(UISelectors.itemCalories).value = item.calories;      
+    },
+    //Display the item that has been updated and submited
+    showUpdatedItem: function(item){
+      let listItems = document.querySelectorAll(UISelectors.listItems);
+
+      //turn node into Array
+      listItems = Array.from(listItems);
+
+      listItems.forEach(function(li){
+        const itemID = li.getAttribute('id');
+
+        if(itemID === `item-${item.id}`){
+          
+          document.querySelector(`#${itemID}`).innerHTML = `
+          <strong>${item.name}: </strong> <em>${item.calories} Calories</em>
+          <a href="#" class="secondary-content">
+            <i class="edit-item fa fa-pencil"></i>
+          </a>`
+        }
+      });
+
     },    
     // insert Total Calories into DOM
     showCaloriesTotal: function(totalCalories){
@@ -177,8 +212,19 @@ const AppCtrl = (function (ItemCtrl,UICtrl ){
     // event to add item
     document.querySelector(selectors.addBtn).addEventListener('click', addItem);
 
-    // event to edit item
-    document.querySelector(selectors.itemList).addEventListener('click', updateItem);    
+    // even to disable submit by enter
+    document.addEventListener('keypress', function(e){
+      if(e.keycode === 13 || e.which === 13){        
+        e.preventDefault();
+        return false;
+      }
+    });
+
+    // event to select item to edit
+    document.querySelector(selectors.itemList).addEventListener('click', itemEditClick);    
+
+    // event to submit update
+    document.querySelector(selectors.updateBtn).addEventListener('click', itemEditSubmit);    
     
   }
 
@@ -208,7 +254,7 @@ const AppCtrl = (function (ItemCtrl,UICtrl ){
     e.preventDefault();
   }
 
-  const updateItem = function(e){
+  const itemEditClick = function(e){
     if(e.target.classList.contains('edit-item')){
       // Get list item id (item-0, item-1)
       const itemId = e.target.parentElement.parentElement.id;
@@ -217,10 +263,27 @@ const AppCtrl = (function (ItemCtrl,UICtrl ){
 
       const item = ItemCtrl.itemToEdit(parseInt(itemIdArry[1]));
 
-      UICtrl.showItemToEdit(item);
-      
+      UICtrl.showItemToEdit(item);      
     }
+    e.preventDefault();
+  }
+  
+  const itemEditSubmit = function(e){
+    const input = UICtrl.getUserInput(); 
+     
+    const updatedItem = ItemCtrl.sendItemToUpdate(input);
 
+    UICtrl.showUpdatedItem(updatedItem);
+
+    // get total calories
+    const totalCalories = ItemCtrl.getTotalCalories();
+
+    // add total calories in UI
+    UICtrl.showCaloriesTotal(totalCalories);
+
+    // Clear form
+    UICtrl.clearInput
+    
     e.preventDefault();
   }
   
