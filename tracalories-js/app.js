@@ -1,4 +1,27 @@
 // Storage Controller
+const StorageCtrl = (function(){
+  
+  return{
+    saveToStorage: function(item){            
+      
+      let items = [];
+      // Check if any item in storage
+      if(localStorage.getItem('items') === null){
+        items.push(item);
+        localStorage.setItem('items', JSON.stringify(items));
+      } else {             
+        
+        let items = [];
+        
+        items = JSON.parse(localStorage.getItem('items'));        
+
+        items.push(item);
+
+        localStorage.setItem('items', JSON.stringify(items));
+      }    
+    }
+  }
+})();
 
 // Item Controller
 const ItemCtrl = (function (){
@@ -234,7 +257,7 @@ const UICtrl = (function (){
 })();
 
 // APP controller
-const AppCtrl = (function (ItemCtrl,UICtrl ){
+const AppCtrl = (function (ItemCtrl, UICtrl, StorageCtrl){
   
   // load event listeners
   const loadEventListeners = function(){
@@ -285,6 +308,9 @@ const AppCtrl = (function (ItemCtrl,UICtrl ){
 
       //add the line break back in item-list
       UICtrl.addLineBreak();
+
+      // save item to storage
+      StorageCtrl.saveToStorage(input);
 
       //clear form inputs
       UICtrl.clearInput();
@@ -380,6 +406,6 @@ const AppCtrl = (function (ItemCtrl,UICtrl ){
     }          
   }
 
-})(ItemCtrl,UICtrl);
+})(ItemCtrl,UICtrl, StorageCtrl);
 
 AppCtrl.init();
