@@ -9,17 +9,29 @@ const StorageCtrl = (function(){
       if(localStorage.getItem('items') === null){
         items.push(item);
         localStorage.setItem('items', JSON.stringify(items));
-      } else {             
-        
+      } else {                     
         let items = [];
-        
+        // get items from storage
         items = JSON.parse(localStorage.getItem('items'));        
-
+        // push new intem to array
         items.push(item);
-
+        // save items to local storage
         localStorage.setItem('items', JSON.stringify(items));
       }    
+    },
+    getFromStorage: function(){
+      let items;
+      // Check if any item in storage
+      if(localStorage.getItem('items') === null){
+        let items = [];
+      } else {                     
+        // let items = [];
+        // get items from storage
+        items = JSON.parse(localStorage.getItem('items'));                      
+      }
+      return items;
     }
+    
   }
 })();
 
@@ -33,12 +45,13 @@ const ItemCtrl = (function (){
   }
 
   //data Structure
-  const data = {
-    items: [
-      // {id: 0, name: "Steak", calories: 450},
-      // {id: 1, name: "HotDog", calories: 650},
-      // {id: 2, name: "Burger", calories: 750}
-    ],
+  const data = {    
+    // [
+    //   // {id: 0, name: "Steak", calories: 450},
+    //   // {id: 1, name: "HotDog", calories: 650},
+    //   // {id: 2, name: "Burger", calories: 750}
+    // ],    
+    items: StorageCtrl.getFromStorage(),
     currentItem: null,
     totalCalories: 0
   }
@@ -139,18 +152,27 @@ const UICtrl = (function (){
   // PUBLIC Mehotds
   return {
     // Populate lists
-    populateList: function(items){
+    populateList: function(items){                   
       let html = '';
+      let idCounter = 0;
 
       items.forEach(item => {
         html += ` 
-        <li class="collection-item" id="item-${item.id}">
+        <li class="collection-item" id="item-${idCounter}">
         <strong>${item.name}: </strong> <em>${item.calories} Calories</em>
         <a href="#" class="secondary-content">
           <i class="edit-item fa fa-pencil"></i>
         </a>
       </li>`
+      idCounter += 1;
+
       });
+      // get total calories
+      const totalCalories = ItemCtrl.getTotalCalories();
+
+      // add total calories in UI
+      UICtrl.showCaloriesTotal(totalCalories);
+
       document.querySelector(UISelectors.itemList).innerHTML = html;
     },
      // Selectors
@@ -181,7 +203,7 @@ const UICtrl = (function (){
     },
     // Show the item to Edit
     showItemToEdit: function(item){  
-      // hide add meal btn and unhide the other buttons
+      // hide add meal btn and unhide the other buttons      
       UICtrl.setAddEdit();
       document.querySelector(UISelectors.itemName).value = item.name;
       document.querySelector(UISelectors.itemCalories).value = item.calories;      
@@ -189,7 +211,7 @@ const UICtrl = (function (){
     //Display the item that has been updated and submited
     showUpdatedItem: function(item){
       let listItems = document.querySelectorAll(UISelectors.listItems);
-
+      
       //turn node into Array
       listItems = Array.from(listItems);
 
@@ -226,7 +248,7 @@ const UICtrl = (function (){
     },
 
     // insert Total Calories into DOM
-    showCaloriesTotal: function(totalCalories){
+    showCaloriesTotal: function(totalCalories){      
       document.querySelector(UISelectors.totalCalories).innerText = totalCalories;
     },
     // Clear input fields in form
@@ -323,11 +345,11 @@ const AppCtrl = (function (ItemCtrl, UICtrl, StorageCtrl){
     if(e.target.classList.contains('edit-item')){
       // Get list item id (item-0, item-1)
       const itemId = e.target.parentElement.parentElement.id;
-
+      
       const itemIdArry = itemId.split('-');
 
       const item = ItemCtrl.itemToEdit(parseInt(itemIdArry[1]));
-
+      
       UICtrl.showItemToEdit(item);      
     }
     e.preventDefault();
@@ -399,7 +421,8 @@ const AppCtrl = (function (ItemCtrl, UICtrl, StorageCtrl){
         UICtrl.clearLineBreak();
       }else{
         // populate items with items        
-        UICtrl.populateList(items);  
+        UICtrl.populateList(items); 
+        console.log(items) ;
       }
       // load event listeners
       loadEventListeners();      
