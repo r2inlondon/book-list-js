@@ -20,15 +20,16 @@ const StorageCtrl = (function(){
       }    
     },
     getFromStorage: function(){
-      let items;
+      let items = [];
       // Check if any item in storage
       if(localStorage.getItem('items') === null){
         let items = [];
-      } else {                     
-        // let items = [];
-        // get items from storage
-        items = JSON.parse(localStorage.getItem('items'));                      
+       } else {                     
+      // let items = [];
+      // get items from storage
+      items = JSON.parse(localStorage.getItem('items'));                      
       }
+      
       return items;
     }
     
@@ -62,7 +63,8 @@ const ItemCtrl = (function (){
       return data.items;
     },
     // Create new Item instance
-    createItem: function(input){
+    createItem: function(input){          
+      
       let id;
       if(data.items.length > 0){
         id = (data.items.length - 1) + 1;
@@ -77,12 +79,15 @@ const ItemCtrl = (function (){
     },
     // Get item to edit from the pencil
     itemToEdit: function(id){
+      let idCounter = 0;
       let found;
 
       data.items.forEach(item => {
-        if(item.id === id){
+        
+        if(idCounter === id){
           found = item;
         }
+        idCounter += 1
       });
       data.currentItem = found;
 
@@ -137,8 +142,8 @@ const UICtrl = (function (){
   
   // select items
   const UISelectors = {
-    itemList: '#item-list',
     listItems:'#item-list li',
+    itemList: '#item-list',
     addBtn: '.add-btn',
     updateBtn: '.update-btn',
     deleteBtn: '.delete-btn',
@@ -204,6 +209,7 @@ const UICtrl = (function (){
     // Show the item to Edit
     showItemToEdit: function(item){  
       // hide add meal btn and unhide the other buttons      
+      
       UICtrl.setAddEdit();
       document.querySelector(UISelectors.itemName).value = item.name;
       document.querySelector(UISelectors.itemCalories).value = item.calories;      
@@ -343,13 +349,18 @@ const AppCtrl = (function (ItemCtrl, UICtrl, StorageCtrl){
   // Selected item to edit from pencil
   const itemEditClick = function(e){
     if(e.target.classList.contains('edit-item')){
+            
       // Get list item id (item-0, item-1)
       const itemId = e.target.parentElement.parentElement.id;
       
       const itemIdArry = itemId.split('-');
 
-      const item = ItemCtrl.itemToEdit(parseInt(itemIdArry[1]));
+      const temp = parseInt(itemIdArry[1]);
       
+      console.log(temp);
+
+      const item = ItemCtrl.itemToEdit(parseInt(itemIdArry[1]));
+
       UICtrl.showItemToEdit(item);      
     }
     e.preventDefault();
@@ -381,6 +392,7 @@ const AppCtrl = (function (ItemCtrl, UICtrl, StorageCtrl){
   // Clear button function
   const clearAllFields = function(e){
     UICtrl.clearInput();
+    UICtrl.setAddMode();
     e.preventDefault();
   }
 
@@ -415,17 +427,17 @@ const AppCtrl = (function (ItemCtrl, UICtrl, StorageCtrl){
 
       // Fetch items from Data Structure
       const items = ItemCtrl.getItems();
-
-      // check for items
+      
       if(items.length === 0){
         UICtrl.clearLineBreak();
       }else{
         // populate items with items        
         UICtrl.populateList(items); 
-        console.log(items) ;
+        
       }
       // load event listeners
       loadEventListeners();      
+      
     }          
   }
 
