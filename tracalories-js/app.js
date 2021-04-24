@@ -43,6 +43,18 @@ const StorageCtrl = (function(){
 
       })      
       localStorage.setItem('items', JSON.stringify(items));
+    },
+    deleteItemFromStorage: function(deletedtItem){
+      
+      items = JSON.parse(localStorage.getItem('items'));
+      
+      items.forEach(function(item, index){
+        if(item.id === deletedtItem.id){
+          items.splice(index, 1);
+        }
+
+      })      
+      localStorage.setItem('items', JSON.stringify(items));
     }
     
   }
@@ -434,6 +446,9 @@ const AppCtrl = (function (ItemCtrl, UICtrl, StorageCtrl){
 
     // delete item or li element from list
     UICtrl.deleteItem(deletedtItem);
+
+    // delete item from storage
+    StorageCtrl.deleteItemFromStorage(deletedtItem);
     // Clear form
     UICtrl.clearInput();
 
