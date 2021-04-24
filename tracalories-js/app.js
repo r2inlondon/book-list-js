@@ -79,17 +79,19 @@ const ItemCtrl = (function (){
     },
     // Get item to edit from the pencil
     itemToEdit: function(id){
-      let idCounter = 0;
+      // let idCounter = 0;
       let found;
 
       data.items.forEach(item => {
         
-        if(idCounter === id){
+        if(item.id === id){
           found = item;
         }
-        idCounter += 1
+        // idCounter += 1
       });
       data.currentItem = found;
+
+      
 
       return data.currentItem
     }, 
@@ -159,17 +161,17 @@ const UICtrl = (function (){
     // Populate lists
     populateList: function(items){                   
       let html = '';
-      let idCounter = 0;
+      // let idCounter = 0;
 
       items.forEach(item => {
         html += ` 
-        <li class="collection-item" id="item-${idCounter}">
+        <li class="collection-item" id="item-${item.id}">
         <strong>${item.name}: </strong> <em>${item.calories} Calories</em>
         <a href="#" class="secondary-content">
           <i class="edit-item fa fa-pencil"></i>
         </a>
       </li>`
-      idCounter += 1;
+      // idCounter += 1;
 
       });
       // get total calories
@@ -209,6 +211,7 @@ const UICtrl = (function (){
     // Show the item to Edit
     showItemToEdit: function(item){  
       // hide add meal btn and unhide the other buttons      
+      
       
       UICtrl.setAddEdit();
       document.querySelector(UISelectors.itemName).value = item.name;
@@ -325,6 +328,8 @@ const AppCtrl = (function (ItemCtrl, UICtrl, StorageCtrl){
     if(input.name !== "" & input.calories !== ""){
       const newItem = ItemCtrl.createItem(input);
       
+      
+
       // Add new Item to UI
       UICtrl.addItem(newItem);
 
@@ -338,7 +343,7 @@ const AppCtrl = (function (ItemCtrl, UICtrl, StorageCtrl){
       UICtrl.addLineBreak();
 
       // save item to storage
-      StorageCtrl.saveToStorage(input);
+      StorageCtrl.saveToStorage(newItem);
 
       //clear form inputs
       UICtrl.clearInput();
@@ -354,13 +359,9 @@ const AppCtrl = (function (ItemCtrl, UICtrl, StorageCtrl){
       const itemId = e.target.parentElement.parentElement.id;
       
       const itemIdArry = itemId.split('-');
-
-      const temp = parseInt(itemIdArry[1]);
       
-      console.log(temp);
-
       const item = ItemCtrl.itemToEdit(parseInt(itemIdArry[1]));
-
+          
       UICtrl.showItemToEdit(item);      
     }
     e.preventDefault();
