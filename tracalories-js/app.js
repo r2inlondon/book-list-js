@@ -31,6 +31,18 @@ const StorageCtrl = (function(){
       }
       
       return items;
+    },
+    updatedItemStorage: function(updatedItem){
+
+      items = JSON.parse(localStorage.getItem('items'));
+      
+      items.forEach(function(item, index){
+        if(item.id === updatedItem.id){
+          items.splice(index, 1, updatedItem);
+        }
+
+      })      
+      localStorage.setItem('items', JSON.stringify(items));
     }
     
   }
@@ -386,6 +398,8 @@ const AppCtrl = (function (ItemCtrl, UICtrl, StorageCtrl){
 
     // Clear form
     UICtrl.clearInput();
+
+    StorageCtrl.updatedItemStorage(updatedItem);
     
     e.preventDefault();
   }
