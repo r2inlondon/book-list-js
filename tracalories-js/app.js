@@ -102,9 +102,7 @@ const ItemCtrl = (function (){
         // idCounter += 1
       });
       data.currentItem = found;
-
       
-
       return data.currentItem
     }, 
     // item from update meal button
@@ -147,8 +145,14 @@ const ItemCtrl = (function (){
     // method use for testing
     logData: function(){
       return data;
+    },
+    clearAll: function(){
+
+      data.items = null;      
+
     }
   }
+
 })();
 
 /// UI controller
@@ -162,6 +166,7 @@ const UICtrl = (function (){
     updateBtn: '.update-btn',
     deleteBtn: '.delete-btn',
     backBtn: '.back-btn',
+    clearAllbtn: '.clearall-btn',
     itemName: '#item-name',    
     // secondaryContent: '.secondary-content',
     itemCalories: '#item-calories',
@@ -267,6 +272,11 @@ const UICtrl = (function (){
       });
 
     },
+    // Clear all of the items from list
+    clearList: function(){
+      document.querySelector(UISelectors.itemList).innerHTML = "";
+      
+    },
 
     // insert Total Calories into DOM
     showCaloriesTotal: function(totalCalories){      
@@ -276,7 +286,8 @@ const UICtrl = (function (){
     clearInput: function(){
       document.querySelector(UISelectors.itemName).value = "",
       document.querySelector(UISelectors.itemCalories).value = ""      
-    },    
+    },
+    // clear the line break below calories when no items are present   
     clearLineBreak: function(){
       document.querySelector(UISelectors.itemList).style.display = "none";
     },
@@ -325,10 +336,14 @@ const AppCtrl = (function (ItemCtrl, UICtrl, StorageCtrl){
     document.querySelector(selectors.updateBtn).addEventListener('click', itemEditSubmit);    
 
      // event to back button submit
-     document.querySelector(selectors.backBtn).addEventListener('click', clearAllFields); 
+    document.querySelector(selectors.backBtn).addEventListener('click', clearAllFields); 
      
      // event to delete 
     document.querySelector(selectors.deleteBtn).addEventListener('click', itemDeleteSubmit);  
+
+    // even for clear all button
+    document.querySelector(selectors.clearAllbtn).addEventListener('click', clearAllItems);  
+    
   }
 
 
@@ -432,6 +447,17 @@ const AppCtrl = (function (ItemCtrl, UICtrl, StorageCtrl){
    UICtrl.showCaloriesTotal(totalCalories);
 
     e.preventDefault();
+  }
+
+  // function for the clear all button
+  const clearAllItems = function(){
+    
+    // clear items from data
+    ItemCtrl.clearAll();
+    // clear all items from UI list
+    UICtrl.clearList();
+    // clear the line break below calories when no items are present
+    UICtrl.clearLineBreak();
   }
   
   // Public Mehotds
