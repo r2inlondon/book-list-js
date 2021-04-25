@@ -55,6 +55,10 @@ const StorageCtrl = (function(){
 
       })      
       localStorage.setItem('items', JSON.stringify(items));
+    },
+    clearAllFromStorage: function(){
+      // Clear all items in storage for this domain
+      window.localStorage.clear();
     }
     
   }
@@ -348,7 +352,7 @@ const AppCtrl = (function (ItemCtrl, UICtrl, StorageCtrl){
     document.querySelector(selectors.updateBtn).addEventListener('click', itemEditSubmit);    
 
      // event to back button submit
-    document.querySelector(selectors.backBtn).addEventListener('click', clearAllFields); 
+    document.querySelector(selectors.backBtn).addEventListener('click', backButtonSubmit); 
      
      // event to delete 
     document.querySelector(selectors.deleteBtn).addEventListener('click', itemDeleteSubmit);  
@@ -431,10 +435,13 @@ const AppCtrl = (function (ItemCtrl, UICtrl, StorageCtrl){
     e.preventDefault();
   }
 
-  // Clear button function
-  const clearAllFields = function(e){
+  // back button function
+  const backButtonSubmit = function(e){
+    // clear input in form
     UICtrl.clearInput();
+    // hidde edit mode buttons
     UICtrl.setAddMode();
+
     e.preventDefault();
   }
 
@@ -472,6 +479,8 @@ const AppCtrl = (function (ItemCtrl, UICtrl, StorageCtrl){
     // clear all items from UI list
     UICtrl.clearList();
     // clear the line break below calories when no items are present
+    StorageCtrl.clearAllFromStorage();
+
     UICtrl.clearLineBreak();
   }
   
