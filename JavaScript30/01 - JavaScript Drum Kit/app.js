@@ -12,7 +12,7 @@ function playDrum(e){
   // if key doesnt match any sound, exit
   if(!drums) return;
   
-  // add border to the key when playing
+  // rewind sound to the start
   keyDrum.classList += ' playing';
 
   // to be able to play repetitive
