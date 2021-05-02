@@ -6,7 +6,6 @@
 </head>
 <body>
 
-
     <div class="clock">
       <div class="clock-face">
         <div class="hand hour-hand"></div>
@@ -15,10 +14,9 @@
       </div>
     </div>
 
-
   <style>
     html {
-      background: #018DED url(https://unsplash.it/1500/1000?image=881&blur=5);
+      background-image: url(https://source.unsplash.com/random);
       background-size: cover;
       font-family: 'helvetica neue';
       text-align: center;
@@ -62,13 +60,25 @@
       background: black;
       position: absolute;
       top: 50%;
+      /* Rotate the hands from the far right  */
+      transform-origin: 100%;
+      /* Start the hands at 12   */
+      transform: rotate(90deg);
+
+      transition: all 0.5s;
+      /* Realistic hand watch hand move */
+      transition-timing-function: cubic-bezier(0.95, 0.05, 0.795, 0.035);      
+    }
+
+    .second-hand {
+      background: red;
+    }
+
+    .min-hand {
+      background: rgb(22, 22, 148);
     }
 
   </style>
 
-  <script>
-
-
-  </script>
-</body>
+ <script src="app.js"></script>
 </html>
