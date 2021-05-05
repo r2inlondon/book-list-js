@@ -17,12 +17,25 @@ function findMatches(wordToMatch, cities){
 
 }
 
-document.querySelector('.search').addEventListener('keyup', getCity);  
+const suggestions = document.querySelector('.suggestions');
+
+document.querySelector('.search').addEventListener('keyup', displayMatches);  
           
-function getCity(){
+function displayMatches(){
   const found = findMatches(this.value, cities);
 
   console.log(found);
+
+  const html = found.map(place => {
+    return `
+    <li>
+      <span class="name">${place.city}, ${place.state}</span>
+      <span class="population">${place.population}</span>
+    </li>
+    `    
+  }).join('');
+  suggestions.innerHTML = html;
+  
 }
 
 
