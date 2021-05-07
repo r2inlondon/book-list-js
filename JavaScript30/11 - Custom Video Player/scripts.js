@@ -1,10 +1,12 @@
 //Get elements
 const theVideo = document.querySelector('.player__video'),
+      videoScreen = document.querySelector('.viewer'),
       playButton = document.querySelector('[title="Toggle Play"]'),
       skipButtons = document.querySelectorAll('[data-skip]');
 
 //Event listeners
 playButton.addEventListener('click', playMovie);
+videoScreen.addEventListener('click', playMovie);
 skipButtons.forEach(skipButton => skipButton.addEventListener('click', skipVideo));
 
 //The functions
