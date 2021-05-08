@@ -4,6 +4,7 @@ const theVideo = document.querySelector('.player__video'),
       playButton = document.querySelector('[title="Toggle Play"]'),
       progress = document.querySelector('.progress__filled'),
       volControl = document.querySelector('[name="volume"]'),
+      playbackRate = document.querySelector('[name="playbackRate"]'),
       skipButtons = document.querySelectorAll('[data-skip]');
 
 //Event listeners
@@ -11,6 +12,7 @@ playButton.addEventListener('click', playMovie);
 videoScreen.addEventListener('click', playMovie);
 skipButtons.forEach(skipButton => skipButton.addEventListener('click', skipVideo));
 volControl.addEventListener('change', SetVolume);
+playbackRate.addEventListener('change',SetPlaybackRate);
 
 
 //The functions
@@ -40,6 +42,10 @@ function playMovie(){
 // function for the volume
 function SetVolume(){  
   theVideo.volume = this.value /100;
+}
+
+function SetPlaybackRate(){
+  theVideo.playbackRate = playbackRate.value;
 }
   
 // skip controls
