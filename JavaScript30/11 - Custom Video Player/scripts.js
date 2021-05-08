@@ -23,10 +23,13 @@ function playMovie(){
   if(theVideo.paused){
     // play the video
     theVideo.play()
+    playButton.innerText = '►';
+
     // calling video progress bar 
     theVideo.ontimeupdate = function(){progressBar()} 
   } else {
     theVideo.pause();
+    playButton.innerText = '❚ ❚';    
     }
   //video progress bar function  
   function progressBar(){
