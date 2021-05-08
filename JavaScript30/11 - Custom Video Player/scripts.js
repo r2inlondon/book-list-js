@@ -25,13 +25,12 @@ function playMovie(){
   if(theVideo.paused){
     // play the video
     theVideo.play()
-    playButton.innerText = '►';
-
+    playButton.innerText = '❚ ❚';     
     // calling video progress bar 
     theVideo.ontimeupdate = function(){progressBar()} 
   } else {
     theVideo.pause();
-    playButton.innerText = '❚ ❚';    
+    playButton.innerText = '►';
     }
   //video progress bar function  
   function progressBar(){
@@ -44,6 +43,7 @@ function SetVolume(){
   theVideo.volume = this.value /100;
 }
 
+// function play back rate
 function SetPlaybackRate(){
   theVideo.playbackRate = playbackRate.value;
 }
