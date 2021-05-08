@@ -3,6 +3,7 @@ const theVideo = document.querySelector('.player__video'),
       videoScreen = document.querySelector('.viewer'),
       playButton = document.querySelector('[title="Toggle Play"]'),
       progress = document.querySelector('.progress__filled'),
+      progressBar = document.querySelector('.progress'),
       volControl = document.querySelector('[name="volume"]'),
       playbackRate = document.querySelector('[name="playbackRate"]'),
       skipButtons = document.querySelectorAll('[data-skip]');
@@ -13,6 +14,7 @@ videoScreen.addEventListener('click', playMovie);
 skipButtons.forEach(skipButton => skipButton.addEventListener('click', skipVideo));
 volControl.addEventListener('change', SetVolume);
 playbackRate.addEventListener('change',SetPlaybackRate);
+progressBar.addEventListener('click', scrub);
 
 
 //The functions
@@ -37,6 +39,14 @@ function playMovie(){
     progress.style.flexBasis = `${(100 * (theVideo.currentTime / theVideo.duration)).toFixed(2)}%`;
   }   
 }
+// click on progress bar to move play
+function scrub(e){
+  console.log('scrub');
+  const scrubTime = (e.offsetX / progressBar.offsetWidth) * theVideo.duration;
+
+  theVideo.currentTime = scrubTime;
+
+}
 
 // function for the volume
 function SetVolume(){  
@@ -47,7 +57,7 @@ function SetVolume(){
 function SetPlaybackRate(){
   theVideo.playbackRate = playbackRate.value;
 }
-  
+
 // skip controls
 function skipVideo(e){
   // get the skip value from html data-skip
@@ -56,4 +66,5 @@ function skipVideo(e){
   vid_currentTime = theVideo.currentTime;
   theVideo.currentTime = vid_currentTime + skip;  
 }
+
 
