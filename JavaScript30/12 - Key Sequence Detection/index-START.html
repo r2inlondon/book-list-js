@@ -7,6 +7,34 @@
 </head>
 <body>
 <script>
+  
+  
+  document.addEventListener('keydown' ,konami);
+  
+  let buffer = [];
+  let sequence;
+  
+
+  function konami(e){
+    
+    buffer.push(e.keyCode)
+      
+    sequence = buffer.join("")
+    console.log(e.keyCode)
+
+    if(sequence == 38384040373937396665){
+      console.log('KANOMI CODE !!!')
+    }
+
+    setTimeout(function(){
+      buffer = [];
+      sequence ="";
+      console.log('Cleared !!!')
+    },5000)
+  }
+
+
+
 </script>
 </body>
 </html>
