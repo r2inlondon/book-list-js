@@ -3,22 +3,23 @@
 
   let lastChecked;
 
-  let inBetween = false;
+  
   // click event works for both mouse and keyboard shift
   checkBoxes.forEach(checkBox => checkBox.addEventListener('click', function(e){ 
-
-    // click + shift
+    
+    let inBetween = false;
+    
     if (e.target.checked && e.shiftKey) {
+      // this is the checkbox that was check using click and shift
       
-      console.log(this);
       checkBoxes.forEach(checkBox => {
         
-        // console.log(checkBox);
-        // this = the box that got checked first
+        console.log(checkBox);
+        // 
         if(checkBox === this || checkBox == lastChecked){
           // add the inBetween mark to the boxes in between first and last box
           inBetween = !inBetween;          
-          // console.log('here');
+          console.log('inBetween elements here');
         }
 
         if(inBetween){
@@ -28,7 +29,11 @@
       });
     
     }
-
+      
+    // this variable will be reassing to the checkbox that was checked without 
+    // the shift key
     lastChecked = this;
+
+    
   }))
 
