@@ -15,15 +15,16 @@ function addFood(e){
   // create li element  
   const li = document.createElement('li');
   // increase id if needed
-  if(itemsList.childElementCount > 0){
+  if(items.length >= 0){
     id += 1;
   } 
 
-
   // insert input and label into li element
   li.innerHTML = `
-    <input type="checkbox" id="item-${id}">
-    <label for="item-${id}">${item.value}</label>`
+    <input type="checkbox" id="item-${id -1}">
+    <label for="item-${id -1}">${item.value}</label>`
+  
+  items.push(item.value);
   // insert li into the DOM
   itemsList.appendChild(li);
   // clear form
