@@ -55,5 +55,5 @@ function toggleCheckbox(e){
   localStorage.setItem('items', JSON.stringify(items));  
 }
 
-// load items from storage if any
+// load items from storage if any when refreshing page
 displayItems(items);
