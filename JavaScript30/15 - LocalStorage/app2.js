@@ -41,7 +41,7 @@ function displayItems( plates = []){
 }
 
 function toggleCheckbox(e){
-  // if it doesnt match then exit
+  // if it doesnt match, then exit function
   if(!e.target.matches('input')) return;
   // grab the input element
   const ele = e.target;
