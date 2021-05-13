@@ -1,7 +1,7 @@
 const addItems = document.querySelector('.add-items'),     
       itemsList = document.querySelector('.plates');
 
-let items = [];
+let items = JSON.parse(localStorage.getItem('items')) || [];
 
 // even listeners                       
 addItems.addEventListener('submit', addItem);
@@ -19,6 +19,8 @@ function addItem(e){
   }
   // add new item to array
   items.push(item);
+  // save to local storage
+  localStorage.setItem('items', JSON.stringify(items));
   // insert new item into DOM
   displayItems(items);
   // clear form field
@@ -48,5 +50,10 @@ function toggleCheckbox(e){
   // Get the index from the input element
   const index = ele.dataset.index;
   // find item in array and update done attribute
-  items[index].done = !items[index].done;  
+  items[index].done = !items[index].done;
+  // update done status in storage
+  localStorage.setItem('items', JSON.stringify(items));  
 }
+
+// load items from storage if any
+displayItems(items);
