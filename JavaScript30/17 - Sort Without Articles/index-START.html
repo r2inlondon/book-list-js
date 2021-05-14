@@ -57,9 +57,8 @@ function strip(bandName){
 
 // sort band's alphabetically
 const newBands = bands.sort(function (a, b){
-  // https://www.youtube.com/watch?v=RsFBsBep-hA&t=266s
+  // sort method - https://www.youtube.com/watch?v=RsFBsBep-hA&t=266s
   return strip(a) > strip(b) ? 1 :  -1;
-
 });
 // create li elements
 const html = newBands.map((band) => {
