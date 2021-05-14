@@ -43,11 +43,31 @@
 
   </style>
 
-  <ul id="bands"></ul>
+  <ul id="bands">
+    
+  </ul>
 
 <script>
 const bands = ['The Plot in You', 'The Devil Wears Prada', 'Pierce the Veil', 'Norma Jean', 'The Bled', 'Say Anything', 'The Midway State', 'We Came as Romans', 'Counterparts', 'Oh, Sleeper', 'A Skylit Drive', 'Anywhere But Here', 'An Old Dog'];
 
+// Regex fuction to remove a, the, an
+function strip(bandName){
+  return bandName.replace(/^a |the |an /i, "");
+}
+
+// sort band's alphabetically
+const newBands = bands.sort(function (a, b){
+  // https://www.youtube.com/watch?v=RsFBsBep-hA&t=266s
+  return strip(a) > strip(b) ? 1 :  -1;
+
+});
+// create li elements
+const html = newBands.map((band) => {
+  return `<li>${band}</li>`;
+}).join("");
+
+// insert li elements into DOM
+document.querySelector('#bands').innerHTML = html;
 
 </script>
 
