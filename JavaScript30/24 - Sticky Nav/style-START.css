@@ -74,6 +74,11 @@ li.logo {
   font-size: 30px;
 }
 
+/* show logo when sticky class is present in nav bar*/
+nav.sticky li.logo{
+  max-width: 500px;
+}
+
 li.logo a {
   color: black;
 }
@@ -93,5 +98,7 @@ nav a {
   top: 0;
   width: 100%;
 }
+
+
 
 
