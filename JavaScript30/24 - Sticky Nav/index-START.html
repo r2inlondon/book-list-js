@@ -68,6 +68,7 @@
       
     if(window.pageYOffset >= sticky){
       navbar.classList.add("sticky")
+      // Add some top padding to the page content to prevent sudden quick movement
       document.body.style.paddingTop = navbar.offsetHeight + 'px';
     } else {
       navbar.classList.remove("sticky");
