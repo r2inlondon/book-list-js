@@ -86,3 +86,12 @@ nav a {
   transition: all 0.2s;
   text-transform: uppercase;
 }
+
+/* The sticky class is added to the navbar with JS when it reaches its scroll position */
+.sticky {
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+
+
