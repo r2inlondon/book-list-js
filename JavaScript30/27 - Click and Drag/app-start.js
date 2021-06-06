@@ -9,13 +9,20 @@ items.addEventListener('mousedown', moveItems);
 items.addEventListener('mouseup', stopItems);
 
 // functions
-function moveItems(e){
-    console.log('clicked');
-    clicked = true;
-    items.classList.add("active");    
+function moveItems(e){    
+    items.classList.add("active");
+
+    this.addEventListener('mousemove', scrollPosition); 
+    
 }
 
-function stopItems(e){
-    clicked = false;
+function stopItems(e){    
     items.classList.remove("active");    
+    this.removeEventListener('mousemove', scrollPosition); 
+}
+
+function scrollPosition(e){      
+    items.scrollTo(e.clientX * 2.7,0);
+    console.log(e.clientX);
+    
 }
