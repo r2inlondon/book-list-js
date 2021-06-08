@@ -26,11 +26,14 @@ function moveSpeed(e){
             s = y / 100
             // get percentage update speedBar's height
             per = (y/max)
+    // exit if limits are exceeded
+    if(s > 4 || s < 0 ) return;
+    // display speed in text
     speedBar.innerHTML = `${s} x`;
+    // move speedbar
     speedBar.style.height = `${per}%`
     // set the play speed
-    video.playbackRate = s;
-    console.log(per);
+    video.playbackRate = s;    
 }
     // stop function if mouseup
 function stopBar(e){
