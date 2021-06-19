@@ -1,6 +1,7 @@
 // selectors
 const   timeLeft = document.querySelector('.display__time-left'),
         beBackAt = document.querySelector('.display__end-time');
+        
 // functions
 let countDown;
 
@@ -41,6 +42,19 @@ renderTime = seconds => {
 renderEnd = endTime => {
     beBackAt.innerText = `Be back at ${endTime}`;    
 }
+
+// get input from 'Enter Minutes'
+document.querySelector('#custom').addEventListener('keyup', (e) => {
+    if(e.keyCode === 13){
+        const info = parseInt(document.querySelector('input').value);        
+        
+        if(info === NaN)return;
+        console.log(info);
+    }     
+    e.preventDefault();
+
+});
+
 
 
 
