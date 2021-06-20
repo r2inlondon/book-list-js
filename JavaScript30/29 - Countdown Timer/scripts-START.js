@@ -6,6 +6,8 @@ const   timeLeft = document.querySelector('.display__time-left'),
 let countDown;
 
 function timer(seconds){
+    // Clear input
+    document.querySelector('input').value = "";
     // Get today's date in miliseconds
     const now = Date.now();
     // Convert the seconds (parameter) into miliseconds
@@ -44,16 +46,21 @@ renderEnd = endTime => {
 }
 
 // get input from 'Enter Minutes'
-document.querySelector('#custom').addEventListener('keyup', (e) => {
-    if(e.keyCode === 13){
-        const info = parseInt(document.querySelector('input').value);        
-        
-        if(info === NaN)return;
-        console.log(info);
-    }     
+document.querySelector('#custom').addEventListener('submit', (e) => {       
+    // get the user's input and convert to numbers    
+    let info = parseInt(document.querySelector('input').value);       
+    // exit function when invalid input
+    if(info === NaN)return;
+    // convert minutes to seconds
+    info = info * 60;    
+    // run timer
+    timer(info);
+                          
     e.preventDefault();
-
 });
+
+
+
 
 
 
