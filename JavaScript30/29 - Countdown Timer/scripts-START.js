@@ -8,6 +8,8 @@ const   timeLeft = document.querySelector('.display__time-left'),
 let countDown;
 
 function timer(seconds){
+    // reset count to stop previous timer
+    clearInterval(countDown);
     // Clear user's input
     document.querySelector('input').value = "";
     // Get today's date in miliseconds
@@ -16,8 +18,6 @@ function timer(seconds){
     const then = now + seconds * 1000;
     // show the starting time
     renderTime(seconds);
-    // reset count to stop previous timer
-    clearInterval(countDown);
     // this is the actual count down function
     countDown = setInterval(() => {
         // magic happens in this line
@@ -28,7 +28,7 @@ function timer(seconds){
         renderTime(secondsLeft);
                     
     }, 1000);
-    // save the time back in a variable
+    // get save only the time from new Date funciton in a variable
     const endTime = new Date(then)
                         .toString()
                         .match(/(\d{2}:\d{2})/)[1];
@@ -58,10 +58,8 @@ document.querySelector('#custom').addEventListener('submit', (e) => {
     let info = parseInt(document.querySelector('input').value);       
     // exit function when invalid input
     if(info === NaN)return;
-    // convert minutes to seconds
-    info = info * 60;    
-    // run timer
-    timer(info);
+    // convert minutes to seconds and call timer
+    timer(info * 60);
                           
     e.preventDefault();
 });
