@@ -14,13 +14,13 @@ function timer(seconds){
     const now = Date.now();
     // Convert the seconds (parameter) into miliseconds
     const then = now + seconds * 1000;
-    
+    // show the starting time
     renderTime(seconds);
     // reset count to stop previous timer
     clearInterval(countDown);
-    
+    // this is the actual count down function
     countDown = setInterval(() => {
-
+        // magic happens in this line
         const secondsLeft = Math.round((then - Date.now()) / 1000);
         // stop interval when countdown gets to zero
         if(secondsLeft <= 0) clearInterval(countDown);
@@ -28,15 +28,16 @@ function timer(seconds){
         renderTime(secondsLeft);
                     
     }, 1000);
-
+    // save the time back in a variable
     const endTime = new Date(then)
                         .toString()
                         .match(/(\d{2}:\d{2})/)[1];
-
+    // display time back
     renderEnd(endTime);                        
 }
     // Render the clock
 renderTime = seconds => {    
+    // convert seconds to hr, min and sec
     const hr =  Math.floor(seconds / 60/ 60);
     const min = Math.floor(seconds / 60) - (hr * 60);
     const sec = Math.floor(seconds % 60);
@@ -46,7 +47,7 @@ renderTime = seconds => {
     tapTitle.innerText = timeLeft.innerText;
 }
 
-    //Render be back at time
+//Render be back at time
 renderEnd = endTime => {
     beBackAt.innerText = `Be back at ${endTime}`;    
 }
@@ -72,8 +73,7 @@ timerButtons.addEventListener('click', (e) => {
     // exit when clicking on 'enter minutes'
     if(seconds === null)return;
     // run timer
-    timer(seconds);
-        
+    timer(seconds);        
 });
 
 
