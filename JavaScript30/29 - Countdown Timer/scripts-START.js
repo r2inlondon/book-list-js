@@ -1,13 +1,14 @@
 // selectors
 const   timeLeft = document.querySelector('.display__time-left'),
         beBackAt = document.querySelector('.display__end-time'),
-        timerButtons = document.querySelector('.timer__controls');
+        timerButtons = document.querySelector('.timer__controls'),
+        tapTitle = document.querySelector('title');
         
 // functions
 let countDown;
 
 function timer(seconds){
-    // Clear input
+    // Clear user's input
     document.querySelector('input').value = "";
     // Get today's date in miliseconds
     const now = Date.now();
@@ -15,6 +16,8 @@ function timer(seconds){
     const then = now + seconds * 1000;
     
     renderTime(seconds);
+    // reset count to stop previous timer
+    clearInterval(countDown);
     
     countDown = setInterval(() => {
 
@@ -33,12 +36,14 @@ function timer(seconds){
     renderEnd(endTime);                        
 }
     // Render the clock
-renderTime = seconds => {
+renderTime = seconds => {    
     const hr =  Math.floor(seconds / 60/ 60);
     const min = Math.floor(seconds / 60) - (hr * 60);
     const sec = Math.floor(seconds % 60);
     // convert numbers to string and add 0 at the front when number is < 9  
     timeLeft.innerText = `${hr.toString().padStart(2,'0')}:${min.toString().padStart(2,'0')}:${sec.toString().padStart(2,'0')}`    
+    // show timmer on browser's tap
+    tapTitle.innerText = timeLeft.innerText;
 }
 
     //Render be back at time
