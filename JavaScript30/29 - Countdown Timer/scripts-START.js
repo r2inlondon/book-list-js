@@ -1,6 +1,7 @@
 // selectors
 const   timeLeft = document.querySelector('.display__time-left'),
-        beBackAt = document.querySelector('.display__end-time');
+        beBackAt = document.querySelector('.display__end-time'),
+        timerButtons = document.querySelector('.timer__controls');
         
 // functions
 let countDown;
@@ -57,6 +58,17 @@ document.querySelector('#custom').addEventListener('submit', (e) => {
     timer(info);
                           
     e.preventDefault();
+});
+
+// Button functions
+timerButtons.addEventListener('click', (e) => {
+    // get data-time from the button via click
+    const seconds = e.target.getAttribute('data-time');
+    // exit when clicking on 'enter minutes'
+    if(seconds === null)return;
+    // run timer
+    timer(seconds);
+        
 });
 
 
