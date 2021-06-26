@@ -2,10 +2,11 @@
 const holes = document.querySelectorAll('.hole');
 const scoreBoard = document.querySelector('.score');
 const moles = document.querySelectorAll('.mole');
+let score = 0;
 
 // Events Listener
-moles.forEach(mole => { mole.addEventListener('click', e => {
-    console.log('Whacked !!!');
+moles.forEach(mole => { mole.addEventListener('click', e => {    
+    scoreBoard.innerText = `${score += 1}`;    
     })
 });
 
@@ -15,8 +16,7 @@ const startGame = () => {
 }
 
 const randTime = (min, max) => {
-    return Math.round(Math.random() * (max - min) + min);
-    
+    return Math.round(Math.random() * (max - min) + min);    
 }
 
 function moleUp(){
@@ -24,13 +24,10 @@ function moleUp(){
     
     const hole = getHole(5);
 
-    console.log(hole);
-
     holes[hole].className += " up";
 
     setTimeout(function(){        
         holes[hole].classList.remove('up');
-    }, randTime(150,900));
-    
+    }, randTime(150,900));    
 }
 
