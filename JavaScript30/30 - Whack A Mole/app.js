@@ -3,6 +3,12 @@ const holes = document.querySelectorAll('.hole');
 const scoreBoard = document.querySelector('.score');
 const moles = document.querySelectorAll('.mole');
 
+// Events Listener
+moles.forEach(mole => { mole.addEventListener('click', e => {
+    console.log('Whacked !!!');
+    })
+});
+
 // functions
 const startGame = () => {
     
@@ -24,7 +30,7 @@ function moleUp(){
 
     setTimeout(function(){        
         holes[hole].classList.remove('up');
-    }, randTime(150,1000));
-
+    }, randTime(150,900));
     
 }
+
