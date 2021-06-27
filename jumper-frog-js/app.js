@@ -11,6 +11,7 @@ window.addEventListener('keydown', moveFrog, false);
 
 // Functions
 function drawFrog(){
+    // delete frog from old position
     ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
     // the frog
     ctx.beginPath();
@@ -43,11 +44,14 @@ function moveFrog(e){
             break;  
     }
     console.log({deltaX, deltaY});
+    
     e.preventDefault();       
-    drawFrog()
+    // to draw the frog on the new position
+    drawFrog();
 }
 
-// function startGame(){    
-// }
+function startGame(){
+    deltaX = 142, deltaY = 144;    
+    drawFrog();
+}
 
-drawFrog();
