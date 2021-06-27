@@ -8,7 +8,9 @@
 </head>
 <body>
 
-    <button onClick="startGame()">Start!</button>
+    <div>
+        <button onClick="startGame()" class="start">Start Game</button>
+    </div>
 
     <div class="container">
         <canvas id="myCanvas" class="center">
@@ -17,6 +19,10 @@
     </div>
     
     <style>
+        .start{
+            padding: 20px 40px;
+        }
+
         .container {
             text-align:center;
         }

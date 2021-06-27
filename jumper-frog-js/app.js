@@ -5,53 +5,88 @@ const myCanvas = document.getElementById('myCanvas'),
 // Variables
 let x = 22, y = 12;
 let deltaX = 142, deltaY = 144;
+let keys = [];
+const gap = 15;
+
 
 // Event listers
-window.addEventListener('keydown', moveFrog, false);
+window.addEventListener('keydown', moveFrog);
+window.addEventListener('keyup', releasedKey);
 
 // Functions
-function drawFrog(){
-    // delete frog from old position
-    ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
-    // the frog
+
+function drawGrip(gap){
     ctx.beginPath();
-    ctx.lineWidth = "2";
-    ctx.strokeStyle = "#34eb98";
-    ctx.rect(deltaX, deltaY, 10, 5);
+
+    for(let i = 0; i < 20; i++){
+        let lineY = gap + (i * gap);
+        ctx.moveTo(0, lineY);
+        ctx.lineTo(300, lineY);
+    }
+    
+    for ( let i = 0; i < 10; i++) {
+        
+        let lineX = gap + (i * gap );
+        ctx.moveTo(lineX, 0);
+        ctx.lineTo(lineX, 300);
+    }    
+        
+    
+        
+    ctx.lineWidth = 0.7;
     ctx.stroke();
-    // fill color
-    ctx.fillStyle = "#34eb98";
-    ctx.fill();    
+
+    
+}
+
+function drawFrogImage(){
+    ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
+    base_image = new Image();
+    base_image.src = 'img/frog.svg';    
+    base_image.onload = function(){
+        ctx.drawImage(base_image, deltaX, deltaY, 20, 20);
+    }
 }
 
 function moveFrog(e){
-    switch(e.keyCode) {
-        case 37:            
-            // left key pressed            
-            deltaX -= x;
-            break;
-        case 38:
-            // up key pressed            
-            deltaY -= y;
-            break;
-        case 39:
-            // right key pressed            
-            deltaX += x;
-            break;
-        case 40:
-            // down key pressed            
-            deltaY += y;
-            break;  
+    // store any key pressed
+    keys[e.keyCode] = true;
+    // left
+    if(keys[37]){
+        deltaX -= x;
     }
+    // right
+    if(keys[39]){
+        deltaX += x;
+    }
+    // down
+    if(keys[38]){
+        deltaY -= y;
+    }
+    // up
+    if(keys[40]){
+        deltaY += y;
+    }
+    
     console.log({deltaX, deltaY});
     
     e.preventDefault();       
     // to draw the frog on the new position
-    drawFrog();
+    drawFrogImage();
+    drawGrip(gap);
+}
+
+function releasedKey(e){
+    // mark keys that were released
+    keys[e.keyCode] = false;
 }
 
 function startGame(){
-    deltaX = 142, deltaY = 144;    
-    drawFrog();
+    deltaX = 142, deltaY = 129;    
+    // drawFrog();
+    drawFrogImage();
+    drawGrip(gap);
 }
+drawGrip(gap);
+
 
