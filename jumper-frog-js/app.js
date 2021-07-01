@@ -38,7 +38,7 @@ function drawGrid(gap){
     
 }
 
-function drawFrogImage(){
+function drawFrogImage(deltaX, deltaY){
     ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
     base_image = new Image();
     base_image.src = 'img/frog.svg';    
@@ -49,33 +49,32 @@ function drawFrogImage(){
 
 function moveFrog(e){
     // store any key pressed
-    keys[e.keyCode] = true;
-    
-    // left
-    if(keys[37]){
+    keys[e.keyCode] = true;    
+    // move left and don't exceed the canvas limit
+    if(keys[37] && deltaX > 7){
         deltaX -= x;
     }
     // right
-    if(keys[39]){
+    if(keys[39] && deltaX < 277){
         deltaX += x;
     }
     // down
-    if(keys[38]){
+    if(keys[38] ){
         deltaY -= y;
     }
     // up
-    if(keys[40]){
+    if(keys[40] && deltaY < 129){
         deltaY += y;
     }
-
     
-    console.log({deltaX, deltaY});
+    console.log({deltaX, deltaY})
     
     e.preventDefault();       
     // to draw the frog on the new position
-    drawFrogImage();
+    drawFrogImage(deltaX, deltaY);
     // check if you won
-    crossedStreet(deltaY);
+    didYouWin(deltaX, deltaY);
+
     drawGrid(gap);
 }
 
@@ -85,16 +84,17 @@ function releasedKey(e){
 }
 
 // check if you won
-function crossedStreet(deltaY){
+function didYouWin(deltaX, deltaY){   
     if(deltaY === -6){
-        alert('YOU WON!');
+        alert('YOU WON!')
+        startGame();
     }
 }
 
 function startGame(){
     deltaX = 127, deltaY = 129;    
     // drawFrog();
-    drawFrogImage();
+    drawFrogImage(deltaX, deltaY);
     drawGrid(gap);
 }
 drawGrid(gap);
