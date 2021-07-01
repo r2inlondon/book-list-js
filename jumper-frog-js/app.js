@@ -50,6 +50,7 @@ function drawFrogImage(){
 function moveFrog(e){
     // store any key pressed
     keys[e.keyCode] = true;
+    
     // left
     if(keys[37]){
         deltaX -= x;
@@ -66,17 +67,28 @@ function moveFrog(e){
     if(keys[40]){
         deltaY += y;
     }
+
     
     console.log({deltaX, deltaY});
+    
     e.preventDefault();       
     // to draw the frog on the new position
     drawFrogImage();
+    // check if you won
+    crossedStreet(deltaY);
     drawGrid(gap);
 }
 
 function releasedKey(e){
     // mark keys that were released
     keys[e.keyCode] = false;
+}
+
+// check if you won
+function crossedStreet(deltaY){
+    if(deltaY === -6){
+        alert('YOU WON!');
+    }
 }
 
 function startGame(){
