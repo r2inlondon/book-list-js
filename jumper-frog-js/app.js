@@ -3,7 +3,7 @@ const myCanvas = document.getElementById('myCanvas'),
       ctx = myCanvas.getContext('2d');
 
 // Variables
-let x = 22, y = 12;
+let x = 30, y = 15;
 let deltaX = 142, deltaY = 144;
 let keys = [];
 const gap = 15;
@@ -15,27 +15,26 @@ window.addEventListener('keyup', releasedKey);
 
 // Functions
 
-function drawGrip(gap){
+function drawGrid(gap){
     ctx.beginPath();
 
+    // Horizontal lines
     for(let i = 0; i < 20; i++){
         let lineY = gap + (i * gap);
         ctx.moveTo(0, lineY);
         ctx.lineTo(300, lineY);
     }
-    
+    // Vertical lines
+    gap = gap * 2;
     for ( let i = 0; i < 10; i++) {
-        
-        let lineX = gap + (i * gap );
+        let lineX = gap + (i * gap );        
         ctx.moveTo(lineX, 0);
         ctx.lineTo(lineX, 300);
-    }    
-        
-    
-        
+    }  
+                    
     ctx.lineWidth = 0.7;
+    ctx.closePath();
     ctx.stroke();
-
     
 }
 
@@ -69,11 +68,10 @@ function moveFrog(e){
     }
     
     console.log({deltaX, deltaY});
-    
     e.preventDefault();       
     // to draw the frog on the new position
     drawFrogImage();
-    drawGrip(gap);
+    drawGrid(gap);
 }
 
 function releasedKey(e){
@@ -82,11 +80,11 @@ function releasedKey(e){
 }
 
 function startGame(){
-    deltaX = 142, deltaY = 129;    
+    deltaX = 127, deltaY = 129;    
     // drawFrog();
     drawFrogImage();
-    drawGrip(gap);
+    drawGrid(gap);
 }
-drawGrip(gap);
+drawGrid(gap);
 
 
