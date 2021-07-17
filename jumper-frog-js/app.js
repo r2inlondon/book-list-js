@@ -22,12 +22,12 @@ function drawGrid(gap){
         ctx.lineTo(300, lineY);
     }
     // Vertical lines
-    gap = gap * 2;
-    for ( let i = 0; i < 10; i++) {
-        let lineX = gap + (i * gap );        
-        ctx.moveTo(lineX, 0);
-        ctx.lineTo(lineX, 300);
-    }                      
+        // gap = gap * 2;
+        // for ( let i = 0; i < 10; i++) {
+        //     let lineX = gap + (i * gap );        
+        //     ctx.moveTo(lineX, 0);
+        //     ctx.lineTo(lineX, 300);
+        // }                      
     ctx.lineWidth = 0.7;
     ctx.closePath();
     ctx.stroke();    
@@ -70,7 +70,6 @@ function moveFrog(e){
     drawFrogImage(deltaX, deltaY);        
     // check if you won
     didYouWin(deltaX, deltaY);
-
     drawGrid(gap);
 }
 
@@ -87,28 +86,38 @@ function didYouWin(deltaX, deltaY){
     }
 }
 
-
-var xPos = 0;
-var yPos = myCanvas.height-30;
+let xPos = 0, xSpeed = 2,
+    yPos = myCanvas.height-30;
 
 function drawCar(){
+    // console.log(xPos);
     if(xPos === 300 ){
         xPos = 0;
     }
     ctx.clearRect(xPos, yPos, 30, 15);   
     ctx.beginPath();
     ctx.fillStyle = "#FF0000";    
-    xPos += 2;     
+    xPos += xSpeed;     
     ctx.fillRect(xPos, yPos, 30, 15);
     ctx.closePath();
+    
 }
 
 
+let gameOn = false;
+
 function startGame(){
-    deltaX = 127, deltaY = 129;    
+    console.log(gameOn);
+    clearInterval(drawCar);    
+    deltaX = 127, deltaY = 129;        
     drawFrogImage(deltaX, deltaY);
-    drawGrid(gap);    
-    setInterval(drawCar, 10);
+    drawGrid(gap);
+    // This function prevents the cars increasing speed when repetitly click on Start Game.
+    if(gameOn === false){
+        setInterval(drawCar, 20);
+        gameOn = true;
+    }    
+    
 }
 drawGrid(gap);
 
