@@ -3,7 +3,7 @@ const myCanvas = document.getElementById('myCanvas'),
       ctx = myCanvas.getContext('2d');
 
 // Variables
-let x = 30, y = 15, deltaX = 142, deltaY = 144, xPos = 0, yPos = 0;    
+let x = 30, y = 15, deltaX = 142, deltaY = 144;    
 let keys = [];
 const gap = 15;
 
@@ -87,27 +87,38 @@ function didYouWin(deltaX, deltaY){
     }
 }
 
-function drawCar(xPos = 0, yPos = 0){
-    ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
+// function drawCar(xPos = 0, yPos = 0){
+//     ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);   
+//     ctx.beginPath();
+//     ctx.fillStyle = "#FF0000";    
+//     ctx.fillRect(xPos, yPos, 30, 15);    
+// }
+
+// function moveCar(){    
+//     while(xPos < 280 ){
+//         xPos += 1;        
+//         drawCar(xPos, yPos);        
+//     }
+// }
+
+var xPos = 0;
+var yPos = myCanvas.height-30;
+
+function drawCar(){
+    ctx.clearRect(xPos, yPos, 30, 15);   
     ctx.beginPath();
     ctx.fillStyle = "#FF0000";    
+    xPos += 2;    
     ctx.fillRect(xPos, yPos, 30, 15);
-    
+    ctx.closePath();
 }
 
-function moveCar(){
-    
-    while(xPos < 280 ){
-        xPos += 1;        
-        drawCar(xPos, yPos);        
-    }
-}
 
 function startGame(){
     deltaX = 127, deltaY = 129;    
     drawFrogImage(deltaX, deltaY);
-    drawGrid(gap);
-    moveCar();
+    drawGrid(gap);    
+    setInterval(drawCar, 10);
 }
 drawGrid(gap);
 
