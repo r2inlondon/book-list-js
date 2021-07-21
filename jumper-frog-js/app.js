@@ -3,7 +3,7 @@ const myCanvas = document.getElementById('myCanvas'),
       ctx = myCanvas.getContext('2d');
 
 // Variables
-let x = 30, y = 15, deltaX = 142, deltaY = 144;    
+let xFrog = 127, yFrog = 129, xCar = 0, yCar = 114, xSpeed = 1, carWidth = 30, carHeight = 15;   
 let keys = [];
 const gap = 15;
 
@@ -33,13 +33,13 @@ function drawGrid(gap){
     ctx.stroke();    
 }
 
-function drawFrogImage(deltaX, deltaY){
+function drawFrogImage(x = 127, y = 129){
     ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
     base_image = new Image();
     base_image.src = 'img/frog.svg';    
 
     base_image.onload = function(){
-        ctx.drawImage(base_image, deltaX, deltaY, 20, 20);
+        ctx.drawImage(base_image, x, y, 20, 20);
     }
 }
 
@@ -47,30 +47,30 @@ function moveFrog(e){
     // store any key pressed
     keys[e.keyCode] = true;    
     // move left and don't exceed the canvas limit
-    if(keys[37] && deltaX > 7){
-        deltaX -= x;
+    if(keys[37] && xFrog > 7){
+        xFrog -= 30;
     }
     // right
-    if(keys[39] && deltaX < 277){
-        deltaX += x;
+    if(keys[39] && xFrog < 277){
+        xFrog += 30;
     }
     // down
     if(keys[38] ){
-        deltaY -= y;
+        yFrog -= 15;
     }
     // up
-    if(keys[40] && deltaY < 129){
-        deltaY += y;
+    if(keys[40] && yFrog < 129){
+        yFrog += 15;
     }
     
-    console.log({deltaX, deltaY})
-    
-    e.preventDefault();       
+    console.log({xFrog, yFrog});
     // to draw the frog on the new position
-    drawFrogImage(deltaX, deltaY);        
+    drawFrogImage(xFrog, yFrog);        
     // check if you won
-    didYouWin(deltaX, deltaY);
+    didYouWin(yFrog);
     drawGrid(gap);
+
+    e.preventDefault();       
 }
 
 function releasedKey(e){
@@ -78,41 +78,47 @@ function releasedKey(e){
     keys[e.keyCode] = false;
 }
 
+function drawCar(){
+    // console.log(xCar);
+    if(xCar === 300 ){
+        xCar = 0;
+    }
+    ctx.clearRect(xCar, yCar, carWidth, carHeight);   
+    ctx.beginPath();
+    ctx.fillStyle = "#FF0000";    
+    xCar += xSpeed;     
+    ctx.fillRect(xCar, yCar, carWidth, carHeight);
+    didYouDie();
+    ctx.closePath();
+        
+}
+
 // check if you won
-function didYouWin(deltaX, deltaY){   
-    if(deltaY === -6){
+function didYouWin(yFrog){   
+    if(yFrog === -6){
         alert('YOU WON!')
         startGame();
     }
+
 }
 
-let xPos = 0, xSpeed = 2,
-    yPos = myCanvas.height-30;
-
-function drawCar(){
-    // console.log(xPos);
-    if(xPos === 300 ){
-        xPos = 0;
-    }
-    ctx.clearRect(xPos, yPos, 30, 15);   
-    ctx.beginPath();
-    ctx.fillStyle = "#FF0000";    
-    xPos += xSpeed;     
-    ctx.fillRect(xPos, yPos, 30, 15);
-    ctx.closePath();
-    
+//check if frog has been run over
+function didYouDie(){
+    console.log({xCar, xFrog});
+    if(xFrog  === (xCar + carWidth) && yFrog === yCar){
+        alert('DEAD!');
+    }    
 }
-
 
 let gameOn = false;
 
-function startGame(){
-    console.log(gameOn);
-    clearInterval(drawCar);    
-    deltaX = 127, deltaY = 129;        
-    drawFrogImage(deltaX, deltaY);
+function startGame(){         
+    // get Frog on start position by resetting keys values
+    xFrog = 127, yFrog = 129
+    // draw the frog       
+    drawFrogImage();
     drawGrid(gap);
-    // This function prevents the cars increasing speed when repetitly click on Start Game.
+    // Prevents the cars increasing speed when repetitly click on Start Game.
     if(gameOn === false){
         setInterval(drawCar, 20);
         gameOn = true;
