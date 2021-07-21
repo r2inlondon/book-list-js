@@ -1,3 +1,5 @@
+// this is a comment
+
 // //Selectors
 const bookForm = document.getElementById('book-form'),
 theTable = document.getElementById('book-list');  
