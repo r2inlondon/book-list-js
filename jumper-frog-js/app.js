@@ -63,7 +63,7 @@ function moveFrog(e){
         yFrog += 15;
     }
     
-    console.log({xFrog, yFrog});
+    
     // to draw the frog on the new position
     drawFrogImage(xFrog, yFrog);        
     // check if you won
@@ -79,7 +79,7 @@ function releasedKey(e){
 }
 
 function drawCar(){
-    // console.log(xCar);
+    
     if(xCar === 300 ){
         xCar = 0;
     }
@@ -104,7 +104,7 @@ function didYouWin(yFrog){
 
 //check if frog has been run over
 function didYouDie(){
-    console.log({xCar, xFrog});
+    
     if(xFrog  === (xCar + carWidth) && yFrog === yCar){
         alert('DEAD!');
     }    
