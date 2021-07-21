@@ -3,7 +3,7 @@ const myCanvas = document.getElementById('myCanvas'),
       ctx = myCanvas.getContext('2d');
 
 // Variables
-let xFrog = 127, yFrog = 129, xCar = 0, yCar = 114, xSpeed = 1, carWidth = 30, carHeight = 15;   
+let xFrog = 126, yFrog = 128, xJump = 28, yJump = 14, xCar = 0, yCar = 114, xSpeed = 4, carWidth = 30, carHeight = 15;   
 let keys = [];
 const gap = 15;
 
@@ -46,23 +46,26 @@ function drawFrogImage(x = 127, y = 129){
 function moveFrog(e){
     // store any key pressed
     keys[e.keyCode] = true;    
-    // move left and don't exceed the canvas limit
-    if(keys[37] && xFrog > 7){
-        xFrog -= 30;
+    // Left - canvas limit
+    if(keys[37] && xFrog > 14){
+        // left frog's jump length
+        xFrog -= xJump;
     }
-    // right
-    if(keys[39] && xFrog < 277){
-        xFrog += 30;
+    // right - canvas limit
+    if(keys[39] && xFrog < 266){
+        // right frog's jump length
+        xFrog += xJump;
     }
-    // down
-    if(keys[38] ){
-        yFrog -= 15;
+    // down - canvas limit
+    if(keys[38]){
+        // down frog's jump length
+        yFrog -= yJump;
     }
-    // up
-    if(keys[40] && yFrog < 129){
-        yFrog += 15;
-    }
-    
+    // up - canvas limit
+    if(keys[40] && yFrog < 128 ){
+        // up frog's jump length
+        yFrog += yJump;
+    }    
     
     // to draw the frog on the new position
     drawFrogImage(xFrog, yFrog);        
@@ -95,7 +98,7 @@ function drawCar(){
 
 // check if you won
 function didYouWin(yFrog){   
-    if(yFrog === -6){
+    if(yFrog === 2){
         alert('YOU WON!')
         startGame();
     }
@@ -104,17 +107,24 @@ function didYouWin(yFrog){
 
 //check if frog has been run over
 function didYouDie(){
-    
-    if(xFrog  === (xCar + carWidth) && yFrog === yCar){
+    let xCarW = (xCar + carWidth), xFrogS = ( xFrog - xSpeed);
+    console.log({xFrog, yFrog});
+    if(xFrog   === (xCar + carWidth) && yFrog === yCar){
         alert('DEAD!');
-    }    
+    }
+    // if(xFrog  === xCar && yFrog === yCar){
+    //     alert('DEAD!');
+    // }     
+    // if(xFrog  === (xCar - carWidth) && yFrog === yCar){
+    //     alert('DEAD!');
+    // }       
 }
 
 let gameOn = false;
 
 function startGame(){         
     // get Frog on start position by resetting keys values
-    xFrog = 127, yFrog = 129
+    xFrog = 126, yFrog = 128
     // draw the frog       
     drawFrogImage();
     drawGrid(gap);
