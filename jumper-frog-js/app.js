@@ -3,13 +3,11 @@ const myCanvas = document.getElementById('myCanvas'),
       ctx = myCanvas.getContext('2d');
 
 // Variables
-let xFrog = 126, yFrog = 128, xJump = 28, yJump = 14, xCar = 0, yCar = 114, xSpeed = 4, carWidth = 30, carHeight = 15;   
+let xFrog = 126, yFrog = 128, xJump = 28, yJump = 14, xCar = 0, yCar = 114, xSpeed = 2, carWidth = 30, carHeight = 15;   
 let keys = [];
 const gap = 15;
 
-// Event listers
-window.addEventListener('keydown', moveFrog);
-window.addEventListener('keyup', releasedKey);
+
 
 // Functions
 
@@ -34,7 +32,7 @@ function drawGrid(gap){
 }
 
 function drawFrogImage(x = 127, y = 129){
-    ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
+    // ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
     base_image = new Image();
     base_image.src = 'img/frog.svg';    
 
@@ -72,6 +70,8 @@ function moveFrog(e){
     // check if you won
     didYouWin(yFrog);
     drawGrid(gap);
+
+    ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
 
     e.preventDefault();       
 }
@@ -112,29 +112,35 @@ function didYouDie(){
     if(xFrog   === (xCar + carWidth) && yFrog === yCar){
         alert('DEAD!');
     }
-    // if(xFrog  === xCar && yFrog === yCar){
-    //     alert('DEAD!');
-    // }     
-    // if(xFrog  === (xCar - carWidth) && yFrog === yCar){
-    //     alert('DEAD!');
-    // }       
+    
 }
 
 let gameOn = false;
 
-function startGame(){         
+function animate(){
+    // creates the animation loop    
+    requestAnimationFrame(animate)
+    // draw the car
+    drawCar();
+    // draw the street to be
+    drawGrid(gap);
+}
+
+
+function startGame(){        
+    // Event listers
+    window.addEventListener('keydown', moveFrog);
+    window.addEventListener('keyup', releasedKey); 
+
     // get Frog on start position by resetting keys values
     xFrog = 126, yFrog = 128
+    animate();
     // draw the frog       
     drawFrogImage();
     drawGrid(gap);
-    // Prevents the cars increasing speed when repetitly click on Start Game.
-    if(gameOn === false){
-        setInterval(drawCar, 20);
-        gameOn = true;
-    }    
-    
+  
 }
+
 drawGrid(gap);
 
 
