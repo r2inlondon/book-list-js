@@ -3,7 +3,7 @@ const myCanvas = document.getElementById('myCanvas'),
       ctx = myCanvas.getContext('2d');
 
 // Variables
-let xFrog = 126, yFrog = 128, xJump = 28, yJump = 14, xCar = 0, yCar = 114, xSpeed = 2, carWidth = 30, carHeight = 15;   
+let xFrog = 126, yFrog = 128, xJump = 28, yJump = 14, xCar = 0, yCar = 114, xSpeed = .2, carWidth = 30, carHeight = 15;   
 let keys = [];
 const gap = 15;
 
@@ -19,17 +19,13 @@ function drawGrid(gap){
         ctx.moveTo(0, lineY);
         ctx.lineTo(300, lineY);
     }
-    // Vertical lines
-        // gap = gap * 2;
-        // for ( let i = 0; i < 10; i++) {
-        //     let lineX = gap + (i * gap );        
-        //     ctx.moveTo(lineX, 0);
-        //     ctx.lineTo(lineX, 300);
-        // }                      
+                   
     ctx.lineWidth = 0.7;
     ctx.closePath();
     ctx.stroke();    
 }
+
+
 
 function drawFrogImage(x = 127, y = 129){
     // ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
@@ -68,7 +64,7 @@ function moveFrog(e){
     // to draw the frog on the new position
     drawFrogImage(xFrog, yFrog);        
     // check if you won
-    didYouWin(yFrog);
+    // didYouWin(yFrog);
     drawGrid(gap);
 
     ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
@@ -83,15 +79,15 @@ function releasedKey(e){
 
 function drawCar(){
     
-    if(xCar === 300 ){
+    if(xCar > 300 ){
         xCar = 0;
     }
-    ctx.clearRect(xCar, yCar, carWidth, carHeight);   
+       
     ctx.beginPath();
     ctx.fillStyle = "#FF0000";    
     xCar += xSpeed;     
     ctx.fillRect(xCar, yCar, carWidth, carHeight);
-    didYouDie();
+    // didYouDie();
     ctx.closePath();
         
 }
@@ -102,30 +98,48 @@ function didYouWin(yFrog){
         alert('YOU WON!')
         startGame();
     }
+}
+
+function getDistance(xF, yF, xC, yC){
+    // console.log({xF, yF, xC, yC});
+
+    let xDistance = xC - xF;
+    let yDistance = yC - yF;
+
+    return Math.sqrt(Math.pow(xDistance, 2) + Math.pow(yDistance, 2));
 
 }
 
 //check if frog has been run over
 function didYouDie(){
     let xCarW = (xCar + carWidth), xFrogS = ( xFrog - xSpeed);
-    console.log({xFrog, yFrog});
+    // console.log({xFrog, yFrog});
     if(xFrog   === (xCar + carWidth) && yFrog === yCar){
         alert('DEAD!');
     }
     
 }
 
-let gameOn = false;
 
 function animate(){
+    const carAndFrog = (carWidth * carHeight) + 400;
+    
+
     // creates the animation loop    
     requestAnimationFrame(animate)
+    
+    ctx.clearRect(xCar, yCar, carWidth, carHeight);
     // draw the car
     drawCar();
     // draw the street to be
     drawGrid(gap);
+
+    let distance = getDistance(xFrog, yFrog, xCar, yCar);
+    
+    console.log({distance, carAndFrog})
 }
 
+let gameOn = false;
 
 function startGame(){        
     // Event listers
