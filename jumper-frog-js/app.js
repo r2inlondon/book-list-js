@@ -113,12 +113,16 @@ function didYouDie(){
     const carAndFrog = ((carWidth/2) + (carHeight / 2)) + 10;
 
     if(getDistance(xFrog, yFrog, xCar, yCar) < carAndFrog){
-        alert('Dead Frog!');
+        notification('frog is dead');
+    }        
+}
+
+function notification(message){
+    const playAgain = confirm(`Hey you ${message}. Do you want to play again??`)
+
+    if(playAgain === true){
+        startGame();
     }
-    
-    // console.log({distance, carAndFrog})
-    
-    
 }
 
 function animate(){
