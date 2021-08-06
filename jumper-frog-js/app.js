@@ -26,7 +26,6 @@ function drawGrid(gap){
 }
 
 
-
 function drawFrogImage(x = 127, y = 129){
     // ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
     base_image = new Image();
@@ -36,6 +35,8 @@ function drawFrogImage(x = 127, y = 129){
         ctx.drawImage(base_image, x, y, 20, 20);
     }
 }
+
+
 
 function moveFrog(e){
     // store any key pressed
@@ -77,12 +78,10 @@ function releasedKey(e){
     keys[e.keyCode] = false;
 }
 
-function drawCar(){
-    
+function drawCar(){    
     if(xCar > 300 ){
         xCar = 0;
-    }
-       
+    }       
     ctx.beginPath();
     ctx.fillStyle = "#FF0000";    
     xCar += xSpeed;     
@@ -101,8 +100,7 @@ function didYouWin(yFrog){
 }
 
 function getDistance(xF, yF, xC, yC){
-    // console.log({xF, yF, xC, yC});
-
+    
     let xDistance = xC - xF;
     let yDistance = yC - yF;
 
@@ -112,31 +110,30 @@ function getDistance(xF, yF, xC, yC){
 
 //check if frog has been run over
 function didYouDie(){
-    let xCarW = (xCar + carWidth), xFrogS = ( xFrog - xSpeed);
-    // console.log({xFrog, yFrog});
-    if(xFrog   === (xCar + carWidth) && yFrog === yCar){
-        alert('DEAD!');
+    const carAndFrog = ((carWidth/2) + (carHeight / 2)) + 10;
+
+    if(getDistance(xFrog, yFrog, xCar, yCar) < carAndFrog){
+        alert('Dead Frog!');
     }
+    
+    // console.log({distance, carAndFrog})
+    
     
 }
 
-
 function animate(){
-    const carAndFrog = (carWidth * carHeight) + 400;
-    
-
+        
     // creates the animation loop    
-    requestAnimationFrame(animate)
-    
+    requestAnimationFrame(animate)    
     ctx.clearRect(xCar, yCar, carWidth, carHeight);
     // draw the car
     drawCar();
     // draw the street to be
     drawGrid(gap);
+    // check if frog dies
+    didYouDie();
 
-    let distance = getDistance(xFrog, yFrog, xCar, yCar);
     
-    console.log({distance, carAndFrog})
 }
 
 let gameOn = false;
