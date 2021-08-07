@@ -3,11 +3,17 @@ const myCanvas = document.getElementById('myCanvas'),
       ctx = myCanvas.getContext('2d');
 
 // Variables
-let xFrogStart = 130, xFrog = 126, yFrog = 128, frogSize = 16, xJump = 28, yJump = 14, xCar = 0, yCar = 114, xSpeed = .2, carWidth = 30, carHeight = 15;   
+let xFrogStart = 130, xFrog = 126, yFrog = 128, frogSize = 16, xJump = 28, yJump = 14, xCar = 0, yCar = 114, carWidth = 30, carHeight = 15;
+const speed = getSpeed();
 let keys = [];
 const gap = 15;
 
 // Functions
+
+function getSpeed(min = 1, max = 10) {
+    return Math.random() * (max - min) + min;
+  }
+  
 
 function drawGrid(gap){
     ctx.beginPath();
@@ -24,9 +30,7 @@ function drawGrid(gap){
 }
 
 
-function drawFrogImage(x = 127, y = 129){
-    // ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
-    
+function drawFrogImage(x = 127, y = 129){        
     base_image = new Image();
     
     base_image.src = 'img/frog.svg';    
@@ -78,6 +82,7 @@ function releasedKey(e){
     keys[e.keyCode] = false;
 }
 
+
 function drawCar(){
     ctx.clearRect(xCar - 1, yCar, carWidth, carHeight);
 
@@ -87,11 +92,9 @@ function drawCar(){
 
     ctx.beginPath();
     ctx.fillStyle = "#FF0000";    
-    xCar += xSpeed;     
-    ctx.fillRect(xCar, yCar, carWidth, carHeight);
-    
-    ctx.closePath();
-            
+    xCar += speed;     
+    ctx.fillRect(xCar, yCar, carWidth, carHeight);    
+    ctx.closePath();            
 }
 
 // check if you won
@@ -111,54 +114,53 @@ function didYouDie(){
         yCar < yFrog + frogSize &&
         yCar + carHeight > yFrog
         ){
-            notification('The Frog is dead');
+            notification('Frog is dead');
     }
 }
 
 function notification(message){
-    const playAgain = confirm(`${message}. Do you want to play again??`)
-
-    if(playAgain === true){
-        startGame();
-    } else {
-        location.reload();
-    }
+    const playAgain = alert(`${message}`)
+    
+    location.reload();
+    
 }
 
 function draw(){
     ctx.clearRect(xCar, yCar, carWidth, carHeight);
     // ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
     drawCar();
-    
-    // drawFrogImage(xFrog, yFrog);
+        
 }
 
-function animate(){
-    // ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
+function animate(){    
     // creates the animation loop    
-    requestAnimationFrame(animate) 
-
+    requestAnimationFrame(animate); 
     draw();
     // draw the street to be
     drawGrid(gap);
-    // check if frog dies
-    
+    // check if frog dies    
     didYouDie();
     
 }
 
 let gameOn = false;
 
-function startGame(){        
-    // Event listers
+function startGame(){
+    // Trigers Event lister
     window.addEventListener('keydown', moveFrog);
     window.addEventListener('keyup', releasedKey); 
-
-    // get Frog on start position by resetting keys values
-    xFrog = 126, yFrog = xFrogStart;
-    animate();
-    // draw the frog       
+    
+    ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
+    
+    // Reset Frog
+    xFrog = 126, yFrog = xFrogStart;      
     drawFrogImage();
+    // Conditional prevents cars from increasing speed when clickling on startGame constantly.
+    if(gameOn === false){
+        animate();
+        gameOn = true;
+    }  
+        
     drawGrid(gap);
   
 }
