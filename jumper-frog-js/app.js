@@ -105,14 +105,21 @@ function getDistance(xF, yF, xC, yC){
 
 //check if frog has been hit
 function didYouDie(){
-    const carAndFrog = ((carWidth/2) + (frogSize / 2));
+    // const carAndFrog = ((carWidth/2) + (frogSize / 2));
 
-    let distance = getDistance(xFrog, yFrog, xCar, yCar);
-    console.log({distance, carAndFrog});
+    // let distance = getDistance(xFrog, yFrog, xCar, yCar);
+    // console.log({distance, carAndFrog});
     
-    if(getDistance(xFrog, yFrog, xCar, yCar) < carAndFrog){
-        notification('The Frog is dead');
-    }  
+    // if(getDistance(xFrog, yFrog, xCar, yCar) < carAndFrog){
+    //     notification('The Frog is dead');
+    // }  
+    if( xCar < xFrog + frogSize &&
+        xCar + carWidth > xFrog &&
+        yCar < yFrog + frogSize &&
+        yCar + carHeight > yFrog
+        ){
+            notification('The Frog is dead');
+    }
 }
 
 function notification(message){
