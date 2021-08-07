@@ -26,15 +26,16 @@ function drawGrid(gap){
 
 function drawFrogImage(x = 127, y = 129){
     // ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
+    
     base_image = new Image();
+    
     base_image.src = 'img/frog.svg';    
 
     base_image.onload = function(){
         ctx.drawImage(base_image, x, y, frogSize, frogSize);
     }
+        
 }
-
-
 
 function moveFrog(e){
     // store any key pressed
@@ -60,13 +61,14 @@ function moveFrog(e){
         yFrog += yJump;
     }    
     
+    ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
     // to draw the frog on the new position
-    drawFrogImage(xFrog, yFrog);        
+    drawFrogImage(xFrog, yFrog);
     // check if you won
     // didYouWin(yFrog);
     drawGrid(gap);
-
-    ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
+    
+    console.log({xFrog, yFrog});
 
     e.preventDefault();       
 }
@@ -76,17 +78,20 @@ function releasedKey(e){
     keys[e.keyCode] = false;
 }
 
-function drawCar(){    
+function drawCar(){
+    ctx.clearRect(xCar - 1, yCar, carWidth, carHeight);
+
     if(xCar > 300 ){
         xCar = 0;
     }       
+
     ctx.beginPath();
     ctx.fillStyle = "#FF0000";    
     xCar += xSpeed;     
     ctx.fillRect(xCar, yCar, carWidth, carHeight);
     
     ctx.closePath();
-        
+            
 }
 
 // check if you won
@@ -96,23 +101,11 @@ function didYouWin(yFrog){
         startGame();
     }
 }
-// Getting The Distance Between Two Points with The Pythagorean Theorem
-function getDistance(xF, yF, xC, yC){    
-    let xDistance = xC - xF;
-    let yDistance = yC - yF;
-    return Math.sqrt(Math.pow(xDistance, 2) + Math.pow(yDistance, 2));
-}
+
 
 //check if frog has been hit
 function didYouDie(){
-    // const carAndFrog = ((carWidth/2) + (frogSize / 2));
-
-    // let distance = getDistance(xFrog, yFrog, xCar, yCar);
-    // console.log({distance, carAndFrog});
-    
-    // if(getDistance(xFrog, yFrog, xCar, yCar) < carAndFrog){
-    //     notification('The Frog is dead');
-    // }  
+   
     if( xCar < xFrog + frogSize &&
         xCar + carWidth > xFrog &&
         yCar < yFrog + frogSize &&
@@ -132,16 +125,24 @@ function notification(message){
     }
 }
 
-function animate(){
-        
-    // creates the animation loop    
-    requestAnimationFrame(animate)    
+function draw(){
     ctx.clearRect(xCar, yCar, carWidth, carHeight);
-    // draw the car
+    // ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
     drawCar();
+    
+    // drawFrogImage(xFrog, yFrog);
+}
+
+function animate(){
+    // ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
+    // creates the animation loop    
+    requestAnimationFrame(animate) 
+
+    draw();
     // draw the street to be
     drawGrid(gap);
     // check if frog dies
+    
     didYouDie();
     
 }
