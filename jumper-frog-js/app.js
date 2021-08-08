@@ -82,6 +82,26 @@ function releasedKey(e){
     keys[e.keyCode] = false;
 }
 
+class Car {
+    constructor(x, y, color, speed){
+        this.x = x;
+        this.y = y;
+        this.color = color;
+        this.speed = speed;
+    }
+
+    draw(){
+        ctx.beginPath();
+        ctx.fillStyle = this.color;    
+        this.x += this.speed;     
+        ctx.fillRect(this.x, this.y, carWidth, carHeight);    
+        ctx.closePath();            
+    }
+    
+}
+
+const blueCar = new Car(10,114, "blue", 1);
+
 
 function drawCar(){
     ctx.clearRect(xCar - 1, yCar, carWidth, carHeight);
@@ -128,7 +148,7 @@ function notification(message){
 function draw(){
     ctx.clearRect(xCar, yCar, carWidth, carHeight);
     // ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
-    drawCar();
+    blueCar.draw();
         
 }
 
@@ -154,7 +174,8 @@ function startGame(){
     
     // Reset Frog
     xFrog = 126, yFrog = xFrogStart;      
-    drawFrogImage();
+    drawFrogImage();    
+
     // Conditional prevents cars from increasing speed when clickling on startGame constantly.
     if(gameOn === false){
         animate();
