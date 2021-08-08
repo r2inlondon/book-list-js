@@ -91,7 +91,6 @@ class Car {
     }
 
     draw(){
-
         ctx.clearRect(this.x - 1, this.y, carWidth, carHeight);
 
         if(this.x > 300 ){
@@ -105,24 +104,21 @@ class Car {
         ctx.closePath();            
     }
     
+    collision(){
+        if( this.x < xFrog + frogSize &&
+            this.x + carWidth > xFrog &&
+            this.y < yFrog + frogSize &&
+            this.y + carHeight > yFrog
+            ){
+                notification('Frog is dead');
+        }
+    }
 }
 
 const blueCar = new Car(0,114, "blue", 1);
 
 
-function drawCar(){
-    ctx.clearRect(xCar - 1, yCar, carWidth, carHeight);
 
-    if(xCar > 300 ){
-        xCar = 0;
-    }       
-
-    ctx.beginPath();
-    ctx.fillStyle = "#FF0000";    
-    xCar += speed;     
-    ctx.fillRect(xCar, yCar, carWidth, carHeight);    
-    ctx.closePath();            
-}
 
 // check if you won
 function didYouWin(yFrog){   
@@ -156,6 +152,7 @@ function draw(){
     ctx.clearRect(xCar, yCar, carWidth, carHeight);
     // ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
     blueCar.draw();
+    blueCar.collision();
         
 }
 
