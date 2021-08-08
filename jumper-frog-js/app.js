@@ -91,6 +91,13 @@ class Car {
     }
 
     draw(){
+
+        ctx.clearRect(this.x - 1, this.y, carWidth, carHeight);
+
+        if(this.x > 300 ){
+            this.x = 0;
+        }    
+
         ctx.beginPath();
         ctx.fillStyle = this.color;    
         this.x += this.speed;     
@@ -100,7 +107,7 @@ class Car {
     
 }
 
-const blueCar = new Car(10,114, "blue", 1);
+const blueCar = new Car(0,114, "blue", 1);
 
 
 function drawCar(){
