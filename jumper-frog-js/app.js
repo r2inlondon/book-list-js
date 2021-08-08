@@ -14,7 +14,6 @@ function getSpeed(min = 1, max = 10) {
     return Math.random() * (max - min) + min;
   }
   
-
 function drawGrid(gap){
     ctx.beginPath();
     // Horizontal lines
@@ -29,16 +28,12 @@ function drawGrid(gap){
     ctx.stroke();    
 }
 
-
 function drawFrogImage(x = 127, y = 129){        
-    base_image = new Image();
-    
+    base_image = new Image();    
     base_image.src = 'img/frog.svg';    
-
     base_image.onload = function(){
         ctx.drawImage(base_image, x, y, frogSize, frogSize);
-    }
-        
+    }        
 }
 
 function moveFrog(e){
@@ -91,17 +86,21 @@ class Car {
     }
 
     draw(){
+        //clear car previus position
         ctx.clearRect(this.x - 1, this.y, carWidth, carHeight);
-
+        // reset car
         if(this.x > 300 ){
             this.x = 0;
         }    
-
+        // draw car
         ctx.beginPath();
         ctx.fillStyle = this.color;    
+        // move car position
         this.x += this.speed;     
         ctx.fillRect(this.x, this.y, carWidth, carHeight);    
-        ctx.closePath();            
+        ctx.closePath();
+        
+        this.collision();
     }
     
     collision(){
@@ -110,14 +109,13 @@ class Car {
             this.y < yFrog + frogSize &&
             this.y + carHeight > yFrog
             ){
-                notification('Frog is dead');
+              notification('Frog is dead');
         }
     }
 }
 
 const blueCar = new Car(0,114, "blue", 1);
-
-
+const redCar = new Car(80,114, "red", 1);
 
 
 // check if you won
@@ -129,18 +127,6 @@ function didYouWin(yFrog){
 }
 
 
-//check if frog has been hit
-function didYouDie(){
-   
-    if( xCar < xFrog + frogSize &&
-        xCar + carWidth > xFrog &&
-        yCar < yFrog + frogSize &&
-        yCar + carHeight > yFrog
-        ){
-            notification('Frog is dead');
-    }
-}
-
 function notification(message){
     const playAgain = alert(`${message}`)
     
@@ -151,8 +137,11 @@ function notification(message){
 function draw(){
     ctx.clearRect(xCar, yCar, carWidth, carHeight);
     // ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
+    
     blueCar.draw();
-    blueCar.collision();
+    
+    redCar.draw();
+  
         
 }
 
@@ -161,9 +150,7 @@ function animate(){
     requestAnimationFrame(animate); 
     draw();
     // draw the street to be
-    drawGrid(gap);
-    // check if frog dies    
-    didYouDie();
+    drawGrid(gap);    
     
 }
 
