@@ -59,9 +59,9 @@ function moveFrog(e){
         // up frog's jump length
         yFrog += yJump;
     }    
-    
+    // clear canvas
     ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
-    // to draw the frog on the new position
+    // draw frog on new position
     drawFrogImage(xFrog, yFrog);
     // check if you won
     // didYouWin(yFrog);
@@ -85,7 +85,7 @@ class Car {
         this.speed = speed;
     }
 
-    draw(){
+    drawRight(){
         //clear car previus position
         ctx.clearRect(this.x - 1, this.y, carWidth, carHeight);
         // reset car
@@ -99,10 +99,28 @@ class Car {
         this.x += this.speed;     
         ctx.fillRect(this.x, this.y, carWidth, carHeight);    
         ctx.closePath();
-        
+        // check for collisions
         this.collision();
     }
-    
+
+    drawLeft(){
+        //clear car previus position
+        ctx.clearRect(this.x + 1, this.y, carWidth, carHeight);
+        // reset car
+        if(this.x < 0 ){
+            this.x = 300;
+        }    
+        // draw car
+        ctx.beginPath();
+        ctx.fillStyle = this.color;    
+        // move car position
+        this.x -= this.speed;     
+        ctx.fillRect(this.x, this.y, carWidth, carHeight);    
+        ctx.closePath();
+        // check for collisions        
+        this.collision();
+    }
+       
     collision(){
         if( this.x < xFrog + frogSize &&
             this.x + carWidth > xFrog &&
@@ -114,7 +132,7 @@ class Car {
     }
 }
 
-const blueCar = new Car(0,114, "blue", 1);
+const blueCar = new Car(300,94, "blue", 3);
 const redCar = new Car(80,114, "red", 1);
 
 
@@ -138,11 +156,9 @@ function draw(){
     ctx.clearRect(xCar, yCar, carWidth, carHeight);
     // ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
     
-    blueCar.draw();
+    blueCar.drawLeft();
     
-    redCar.draw();
-  
-        
+    redCar.drawRight();          
 }
 
 function animate(){    
