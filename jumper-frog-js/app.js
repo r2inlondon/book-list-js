@@ -64,8 +64,7 @@ function moveFrog(e){
     // draw frog on new position
     drawFrogImage(xFrog, yFrog);
     // check if you won
-    // didYouWin(yFrog);
-    drawGrid(gap);
+    didYouWin(yFrog);
     
     console.log({xFrog, yFrog});
 
@@ -129,7 +128,7 @@ class Car {
             ){
               notification('Frog is dead');
         }
-    }
+    }    
 }
 
 const blueCar = new Car(300,94, "blue", 3);
@@ -138,9 +137,8 @@ const redCar = new Car(80,114, "red", 1);
 
 // check if you won
 function didYouWin(yFrog){   
-    if(yFrog === 2){
-        alert('YOU WON!')
-        startGame();
+    if(yFrog < 5){
+        notification('YOU WIN');
     }
 }
 
@@ -156,18 +154,17 @@ function draw(){
     ctx.clearRect(xCar, yCar, carWidth, carHeight);
     // ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
     
-    blueCar.drawLeft();
-    
-    redCar.drawRight();          
+    blueCar.drawLeft();    
+    redCar.drawRight();
+    // draw street 
+    drawGrid(gap);    
 }
 
 function animate(){    
     // creates the animation loop    
     requestAnimationFrame(animate); 
-    draw();
-    // draw the street to be
-    drawGrid(gap);    
-    
+
+    draw();    
 }
 
 let gameOn = false;
