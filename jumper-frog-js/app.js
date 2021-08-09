@@ -132,8 +132,16 @@ class Car {
 }
 
 const blueCar = new Car(300,94, "blue", 3);
-const redCar = new Car(80,114, "red", 1);
+const redCar = new Car(0,114, "red", 1);
 
+let activeCars = [];
+
+function slowLane(cars, speed){
+    for(let i = 0; i < cars; i++ ){
+        activeCars.push(new Car(300,94, "blue", 3));
+    }
+    return activeCars;
+}
 
 // check if you won
 function didYouWin(yFrog){   
@@ -142,29 +150,30 @@ function didYouWin(yFrog){
     }
 }
 
-
 function notification(message){
     const playAgain = alert(`${message}`)
-    
-    location.reload();
-    
+    // reload game
+    location.reload();    
 }
 
-function draw(){
+function draw(lane){
     ctx.clearRect(xCar, yCar, carWidth, carHeight);
-    // ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
+        
+    // redCar.drawRight();
+    // blueCar.drawLeft();
     
-    blueCar.drawLeft();    
-    redCar.drawRight();
+    lane.forEach( car => car.drawRight());
+           
     // draw street 
     drawGrid(gap);    
+    
 }
 
-function animate(){    
+function animate(lane){    
     // creates the animation loop    
-    requestAnimationFrame(animate); 
-
-    draw();    
+    requestAnimationFrame(() => animate(lane)); 
+    
+    draw(lane);    
 }
 
 let gameOn = false;
@@ -178,11 +187,13 @@ function startGame(){
     
     // Reset Frog
     xFrog = 126, yFrog = xFrogStart;      
-    drawFrogImage();    
-
+    drawFrogImage();
+    
+    const firstLane = slowLane(3,3);
+    
     // Conditional prevents cars from increasing speed when clickling on startGame constantly.
     if(gameOn === false){
-        animate();
+        animate(firstLane);
         gameOn = true;
     }  
         
