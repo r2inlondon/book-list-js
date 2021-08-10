@@ -3,7 +3,7 @@ const myCanvas = document.getElementById('myCanvas'),
       ctx = myCanvas.getContext('2d');
 
 // Variables
-let xFrogStart = 130, xFrog = 126, yFrog = 128, frogSize = 16, xJump = 28, yJump = 14, xCar = 0, yCar = 114, carWidth = 30, carHeight = 15;
+let xFrogStart = 130, xFrog = 126, yFrog = 128, frogSize = 16, xJump = 28, yJump = 14, slowLaneCarDistance = 20; carWidth = 30, carHeight = 15;
 const speed = getSpeed();
 let keys = [];
 const gap = 15;
@@ -138,7 +138,7 @@ let activeCars = [];
 
 function slowLane(cars, speed){
     for(let i = 0; i < cars; i++ ){
-        activeCars.push(new Car(300,94, "blue", 3));
+        activeCars.push(new Car(slowLaneCarDistance += 80, 110, "blue", speed));
     }
     return activeCars;
 }
@@ -157,12 +157,12 @@ function notification(message){
 }
 
 function draw(lane){
-    ctx.clearRect(xCar, yCar, carWidth, carHeight);
+    // ctx.clearRect(xCar, yCar, carWidth, carHeight);
         
     // redCar.drawRight();
     // blueCar.drawLeft();
     
-    lane.forEach( car => car.drawRight());
+    lane.forEach( car => car.drawLeft());
            
     // draw street 
     drawGrid(gap);    
@@ -189,7 +189,7 @@ function startGame(){
     xFrog = 126, yFrog = xFrogStart;      
     drawFrogImage();
     
-    const firstLane = slowLane(3,3);
+    const firstLane = slowLane(6, 0.5);
     
     // Conditional prevents cars from increasing speed when clickling on startGame constantly.
     if(gameOn === false){
