@@ -106,7 +106,7 @@ class Car {
         //clear car previus position
         ctx.clearRect(this.x + 1, this.y, carWidth, carHeight);
         // reset car
-        if(this.x < 0 ){
+        if(this.x < -30 ){
             this.x = 300;
         }    
         // draw car
@@ -134,11 +134,19 @@ class Car {
 const blueCar = new Car(300,94, "blue", 3);
 const redCar = new Car(0,114, "red", 1);
 
-let activeCars = [];
 
-function slowLane(cars, speed){
+function slowLaneLeft(cars, lane, speed){
+    let activeCars = [];
     for(let i = 0; i < cars; i++ ){
-        activeCars.push(new Car(slowLaneCarDistance += 80, 110, "blue", speed));
+        activeCars.push(new Car(slowLaneCarDistance += 80, lane, "blue", speed));
+    }
+    return activeCars;
+}
+
+function slowLaneRight(cars, lane, speed){
+    let activeCars = [];
+    for(let i = 0; i < cars; i++ ){
+        activeCars.push(new Car(slowLaneCarDistance -= 80, lane, "red", speed));
     }
     return activeCars;
 }
@@ -156,24 +164,25 @@ function notification(message){
     location.reload();    
 }
 
-function draw(lane){
+function draw(firstLane, secondLane){
     // ctx.clearRect(xCar, yCar, carWidth, carHeight);
         
     // redCar.drawRight();
     // blueCar.drawLeft();
     
-    lane.forEach( car => car.drawLeft());
+    firstLane.forEach( car => car.drawLeft());
+    secondLane.forEach( car => car.drawRight());
            
     // draw street 
     drawGrid(gap);    
     
 }
 
-function animate(lane){    
+function animate(firstLane, secondLane){    
     // creates the animation loop    
-    requestAnimationFrame(() => animate(lane)); 
+    requestAnimationFrame(() => animate(firstLane, secondLane)); 
     
-    draw(lane);    
+    draw(firstLane, secondLane);    
 }
 
 let gameOn = false;
@@ -189,11 +198,13 @@ function startGame(){
     xFrog = 126, yFrog = xFrogStart;      
     drawFrogImage();
     
-    const firstLane = slowLane(6, 0.5);
-    
+    const firstLane = slowLaneLeft(2, 110, 0.5);
+    const secondLane = slowLaneRight(4, 85, 0.5);
+
+        
     // Conditional prevents cars from increasing speed when clickling on startGame constantly.
     if(gameOn === false){
-        animate(firstLane);
+        animate(firstLane, secondLane);
         gameOn = true;
     }  
         
