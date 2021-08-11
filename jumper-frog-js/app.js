@@ -6,7 +6,7 @@ const myCanvas = document.getElementById('myCanvas'),
 let xFrogStart = 130, xFrog = 126, yFrog = 128, frogSize = 16, xJump = 28, yJump = 14, slowLaneCarDistance = 20; carWidth = 30, carHeight = 15;
 const speed = getSpeed();
 let keys = [];
-const gap = 15;
+const gap = 42;
 
 // Functions
 
@@ -14,18 +14,28 @@ function getSpeed(min = 1, max = 10) {
     return Math.random() * (max - min) + min;
   }
   
-function drawGrid(gap){
+  function roadLanes(){
+      
+    let lineEnds = 5;
     ctx.beginPath();
-    // Horizontal lines
-    for(let i = 0; i < 20; i++){
-        let lineY = gap + (i * gap);
-        ctx.moveTo(0, lineY);
-        ctx.lineTo(300, lineY);
+    for(let i = 1; i < 9; i++){
+        ctx.moveTo(lineEnds, 40);    
+        ctx.lineTo(lineEnds += 30, 40);        
+        lineEnds += 30
     }
+           
+
+    // for(let i = 0; i < 2; i++){
+    //     let lineY = gap + (i * gap);
+    //     ctx.moveTo(0, lineY);
+    //     ctx.lineTo(30, lineY);
+    // }
                    
-    ctx.lineWidth = 0.7;
+    ctx.lineWidth = 0.2;
+    
     ctx.closePath();
-    ctx.stroke();    
+    ctx.strokeStyle = "gray";
+    ctx.stroke();
 }
 
 function drawFrogImage(x = 127, y = 129){        
@@ -172,10 +182,8 @@ function draw(firstLane, secondLane){
     
     firstLane.forEach( car => car.drawLeft());
     secondLane.forEach( car => car.drawRight());
-           
-    // draw street 
-    drawGrid(gap);    
-    
+    roadLanes()    
+                  
 }
 
 function animate(firstLane, secondLane){    
@@ -206,13 +214,13 @@ function startGame(){
     if(gameOn === false){
         animate(firstLane, secondLane);
         gameOn = true;
-    }  
-        
-    drawGrid(gap);
-  
+    }            
 }
 
-drawGrid(gap);
+// draw street 
+roadLanes(gap); 
+
+
 
 
 
