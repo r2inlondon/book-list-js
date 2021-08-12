@@ -3,10 +3,9 @@ const myCanvas = document.getElementById('myCanvas'),
       ctx = myCanvas.getContext('2d');
 
 // Variables
-let xFrogStart = 130, xFrog = 126, yFrog = 128, frogSize = 16, xJump = 28, yJump = 14, slowLaneCarDistance = 20; carWidth = 30, carHeight = 15;
+let xFrogStart = 130, xFrog = 126, yFrog = 128, frogSize = 16, xJump = 28, yJump = 14, carWidth = 30, carHeight = 15;
 const speed = getSpeed();
 let keys = [];
-const gap = 42;
 
 // Functions
 
@@ -14,31 +13,31 @@ function getSpeed(min = 1, max = 10) {
     return Math.random() * (max - min) + min;
   }
   
-  function roadLanes(){
-      
-    // draw central line
+function roadLanes(yLane){
+    let roadBorder = yLane;
     let centreLine = 5;    
+
+    // draw central line
     for(let i = 1; i < 9; i++){
         ctx.beginPath();
-        ctx.moveTo(centreLine, 40);    
-        ctx.lineTo(centreLine += 30, 40);        
+        ctx.moveTo(centreLine, roadBorder * 2);
+        ctx.lineTo(centreLine += 30, roadBorder * 2);
         centreLine += 30
         ctx.closePath();
         ctx.strokeStyle = "gray";
         ctx.stroke();
     }
     // draw road borders
-    let roadBorder = 19;
+
     for(let i = 0; i < 2; i++){
         ctx.beginPath();
         ctx.strokeStyle = "black";
         ctx.moveTo(0, roadBorder);    
         ctx.lineTo(myCanvas.width, roadBorder);
-        roadBorder += 41;
+        roadBorder += 40;
         ctx.closePath();    
         ctx.stroke();
     }
-
 }
 
 function drawFrogImage(x = 127, y = 129){        
@@ -149,6 +148,8 @@ const redCar = new Car(0,114, "red", 1);
 
 
 function slowLaneLeft(cars, y, speed){
+    slowLaneCarDistance = 20;
+    
     let activeCars = [];
     for(let i = 0; i < cars; i++ ){
         activeCars.push(new Car(slowLaneCarDistance += 80, y, "blue", speed));
@@ -185,7 +186,7 @@ function draw(firstLane, secondLane){
     
     firstLane.forEach( car => car.drawLeft());
     secondLane.forEach( car => car.drawRight());
-    roadLanes()    
+    roadLanes(19);
                   
 }
 
@@ -205,13 +206,12 @@ function startGame(){
     
     ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
     
-    // Reset Frog
+    // Reset Frog to start game
     xFrog = 126, yFrog = xFrogStart;      
     drawFrogImage();
-    
-    const firstLane = slowLaneLeft(2, 42, 0.5);
-    const secondLane = slowLaneRight(4, 21, 0.5);
 
+    const firstLane = slowLaneLeft(2, 21, 0.5);
+    const secondLane = slowLaneRight(4, 42, 0.5);
         
     // Conditional prevents cars from increasing speed when clickling on startGame constantly.
     if(gameOn === false){
@@ -221,7 +221,7 @@ function startGame(){
 }
 
 // draw street 
-roadLanes(gap); 
+roadLanes(19)
 
 
 
