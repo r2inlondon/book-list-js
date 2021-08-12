@@ -16,30 +16,28 @@ function getSpeed(min = 1, max = 10) {
   
   function roadLanes(){
       
-    let lineEnds = 5;
-    ctx.beginPath();
+    // draw central line
+    let centreLine = 5;    
     for(let i = 1; i < 9; i++){
-        ctx.moveTo(lineEnds, 40);    
-        ctx.lineTo(lineEnds += 30, 40);        
-        lineEnds += 30
+        ctx.beginPath();
+        ctx.moveTo(centreLine, 40);    
+        ctx.lineTo(centreLine += 30, 40);        
+        centreLine += 30
+        ctx.closePath();
+        ctx.strokeStyle = "gray";
+        ctx.stroke();
     }
-                              
-    ctx.lineWidth = 0.2;    
-    ctx.closePath();
-    ctx.strokeStyle = "gray";
-    ctx.stroke();
-
-    ctx.beginPath();
-    ctx.moveTo(0, 19);    
-    ctx.lineTo(myCanvas.width, 19);
-
-    ctx.moveTo(0, 60);    
-    ctx.lineTo(myCanvas.width, 60);
-
-    ctx.closePath();
-    ctx.strokeStyle = "black";
-    ctx.stroke();
-
+    // draw road borders
+    let roadBorder = 19;
+    for(let i = 0; i < 2; i++){
+        ctx.beginPath();
+        ctx.strokeStyle = "black";
+        ctx.moveTo(0, roadBorder);    
+        ctx.lineTo(myCanvas.width, roadBorder);
+        roadBorder += 41;
+        ctx.closePath();    
+        ctx.stroke();
+    }
 
 }
 
