@@ -23,19 +23,24 @@ function getSpeed(min = 1, max = 10) {
         ctx.lineTo(lineEnds += 30, 40);        
         lineEnds += 30
     }
-           
-
-    // for(let i = 0; i < 2; i++){
-    //     let lineY = gap + (i * gap);
-    //     ctx.moveTo(0, lineY);
-    //     ctx.lineTo(30, lineY);
-    // }
-                   
-    ctx.lineWidth = 0.2;
-    
+                              
+    ctx.lineWidth = 0.2;    
     ctx.closePath();
     ctx.strokeStyle = "gray";
     ctx.stroke();
+
+    ctx.beginPath();
+    ctx.moveTo(0, 19);    
+    ctx.lineTo(myCanvas.width, 19);
+
+    ctx.moveTo(0, 60);    
+    ctx.lineTo(myCanvas.width, 60);
+
+    ctx.closePath();
+    ctx.strokeStyle = "black";
+    ctx.stroke();
+
+
 }
 
 function drawFrogImage(x = 127, y = 129){        
@@ -145,18 +150,18 @@ const blueCar = new Car(300,94, "blue", 3);
 const redCar = new Car(0,114, "red", 1);
 
 
-function slowLaneLeft(cars, lane, speed){
+function slowLaneLeft(cars, y, speed){
     let activeCars = [];
     for(let i = 0; i < cars; i++ ){
-        activeCars.push(new Car(slowLaneCarDistance += 80, lane, "blue", speed));
+        activeCars.push(new Car(slowLaneCarDistance += 80, y, "blue", speed));
     }
     return activeCars;
 }
 
-function slowLaneRight(cars, lane, speed){
+function slowLaneRight(cars, y, speed){
     let activeCars = [];
     for(let i = 0; i < cars; i++ ){
-        activeCars.push(new Car(slowLaneCarDistance -= 80, lane, "red", speed));
+        activeCars.push(new Car(slowLaneCarDistance -= 80, y, "red", speed));
     }
     return activeCars;
 }
@@ -206,8 +211,8 @@ function startGame(){
     xFrog = 126, yFrog = xFrogStart;      
     drawFrogImage();
     
-    const firstLane = slowLaneLeft(2, 110, 0.5);
-    const secondLane = slowLaneRight(4, 85, 0.5);
+    const firstLane = slowLaneLeft(2, 42, 0.5);
+    const secondLane = slowLaneRight(4, 21, 0.5);
 
         
     // Conditional prevents cars from increasing speed when clickling on startGame constantly.
