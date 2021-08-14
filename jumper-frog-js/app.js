@@ -12,81 +12,36 @@ let keys = [];
 function getSpeed(min = 1, max = 10) {
     return Math.random() * (max - min) + min;
   }
+
+  // **** Street ****
   
-function roadLanes(yLane){
-    let roadBorder = yLane;
+function twoWayStreet(yLane){
+    let streetBorder = yLane;
     let centreLine = 5;    
 
     // draw central line
     for(let i = 1; i < 9; i++){
         ctx.beginPath();
-        ctx.moveTo(centreLine, roadBorder * 2);
-        ctx.lineTo(centreLine += 30, roadBorder * 2);
+        ctx.moveTo(centreLine, streetBorder * 2);
+        ctx.lineTo(centreLine += 30, streetBorder * 2);
         centreLine += 30
         ctx.closePath();
         ctx.strokeStyle = "gray";
         ctx.stroke();
     }
-    // draw road borders
-
+    // draw street
     for(let i = 0; i < 2; i++){
         ctx.beginPath();
         ctx.strokeStyle = "black";
-        ctx.moveTo(0, roadBorder);    
-        ctx.lineTo(myCanvas.width, roadBorder);
-        roadBorder += 40;
+        ctx.moveTo(0, streetBorder);    
+        ctx.lineTo(myCanvas.width, streetBorder);
+        streetBorder += 40;
         ctx.closePath();    
         ctx.stroke();
     }
 }
 
-function drawFrogImage(x = 127, y = 129){        
-    base_image = new Image();    
-    base_image.src = 'img/frog.svg';    
-    base_image.onload = function(){
-        ctx.drawImage(base_image, x, y, frogSize, frogSize);
-    }        
-}
-
-function moveFrog(e){
-    // store any key pressed
-    keys[e.keyCode] = true;    
-    // Left - canvas limit
-    if(keys[37] && xFrog > 14){
-        // left frog's jump length
-        xFrog -= xJump;
-    }
-    // right - canvas limit
-    if(keys[39] && xFrog < 266){
-        // right frog's jump length
-        xFrog += xJump;
-    }
-    // down - canvas limit
-    if(keys[38]){
-        // down frog's jump length
-        yFrog -= yJump;
-    }
-    // up - canvas limit
-    if(keys[40] && yFrog < xFrogStart ){
-        // up frog's jump length
-        yFrog += yJump;
-    }    
-    // clear canvas
-    ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
-    // draw frog on new position
-    drawFrogImage(xFrog, yFrog);
-    // check if you won
-    didYouWin(yFrog);
-    
-    console.log({xFrog, yFrog});
-
-    e.preventDefault();       
-}
-
-function releasedKey(e){
-    // mark keys that were released
-    keys[e.keyCode] = false;
-}
+// **** Cars ****
 
 class Car {
     constructor(x, y, color, speed){
@@ -143,10 +98,7 @@ class Car {
     }    
 }
 
-const blueCar = new Car(300,94, "blue", 3);
-const redCar = new Car(0,114, "red", 1);
-
-
+// create cars, in the lane, direction left
 function slowLaneLeft(cars, y, speed){
     slowLaneCarDistance = 20;
     
@@ -157,12 +109,71 @@ function slowLaneLeft(cars, y, speed){
     return activeCars;
 }
 
+// create cars, in the lane, direction left
 function slowLaneRight(cars, y, speed){
     let activeCars = [];
     for(let i = 0; i < cars; i++ ){
         activeCars.push(new Car(slowLaneCarDistance -= 80, y, "red", speed));
     }
     return activeCars;
+}
+
+function carsAndStreet(y, blueCarsNum, blueCarsSpeed, redCarsNum, redCarsSpeed ){
+
+    twoWayStreet(y);
+
+    const firstLane = slowLaneLeft(2, y + 2, 0.5);
+    const secondLane = slowLaneRight(4, 42, 0.5);
+
+}
+
+// ****  FROG ****
+function drawFrogImage(x = 127, y = 129){        
+    base_image = new Image();    
+    base_image.src = 'img/frog.svg';    
+    base_image.onload = function(){
+        ctx.drawImage(base_image, x, y, frogSize, frogSize);
+    }        
+}
+
+function moveFrog(e){
+    // store any key pressed
+    keys[e.keyCode] = true;    
+    // Left - canvas limit
+    if(keys[37] && xFrog > 14){
+        // left frog's jump length
+        xFrog -= xJump;
+    }
+    // right - canvas limit
+    if(keys[39] && xFrog < 266){
+        // right frog's jump length
+        xFrog += xJump;
+    }
+    // down - canvas limit
+    if(keys[38]){
+        // down frog's jump length
+        yFrog -= yJump;
+    }
+    // up - canvas limit
+    if(keys[40] && yFrog < xFrogStart ){
+        // up frog's jump length
+        yFrog += yJump;
+    }    
+    // clear canvas
+    ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
+    // draw frog on new position
+    drawFrogImage(xFrog, yFrog);
+    // check if you won
+    didYouWin(yFrog);
+    
+    console.log({xFrog, yFrog});
+
+    e.preventDefault();       
+}
+
+function releasedKey(e){
+    // mark keys that were released
+    keys[e.keyCode] = false;
 }
 
 // check if you won
@@ -178,15 +189,13 @@ function notification(message){
     location.reload();    
 }
 
+// *** Game On ***
+
 function draw(firstLane, secondLane){
-    // ctx.clearRect(xCar, yCar, carWidth, carHeight);
-        
-    // redCar.drawRight();
-    // blueCar.drawLeft();
     
     firstLane.forEach( car => car.drawLeft());
     secondLane.forEach( car => car.drawRight());
-    roadLanes(19);
+    twoWayStreet(19);
                   
 }
 
@@ -221,7 +230,7 @@ function startGame(){
 }
 
 // draw street 
-roadLanes(19)
+twoWayStreet(19)
 
 
 
