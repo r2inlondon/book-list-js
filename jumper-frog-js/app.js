@@ -4,42 +4,9 @@ const myCanvas = document.getElementById('myCanvas'),
 
 // Variables
 let xFrogStart = 130, xFrog = 126, yFrog = 128, frogSize = 16, xJump = 28, yJump = 14, carWidth = 30, carHeight = 15;
-const speed = getSpeed();
 let keys = [];
 
 // Functions
-
-function getSpeed(min = 1, max = 10) {
-    return Math.random() * (max - min) + min;
-  }
-
-// **** Street ****
-  
-// function twoWayStreet(yLane){
-//     let streetBorder = yLane;
-//     let centreLine = 5;    
-
-//     // draw central line
-//     for(let i = 1; i < 9; i++){
-//         ctx.beginPath();
-//         ctx.moveTo(centreLine, streetBorder * 2);
-//         ctx.lineTo(centreLine += 30, streetBorder * 2);
-//         centreLine += 30
-//         ctx.closePath();
-//         ctx.strokeStyle = "gray";
-//         ctx.stroke();
-//     }
-//     // draw street
-//     for(let i = 0; i < 2; i++){
-//         ctx.beginPath();
-//         ctx.strokeStyle = "black";
-//         ctx.moveTo(0, streetBorder);    
-//         ctx.lineTo(myCanvas.width, streetBorder);
-//         streetBorder += 40;
-//         ctx.closePath();    
-//         ctx.stroke();
-//     }
-// }
 
 // **** Cars ****
 
@@ -95,7 +62,7 @@ class Car {
             ){
               notification('Frog is dead');
         }
-    }    
+    }
 }
 
 // create cars, in the lane, direction left
@@ -154,15 +121,13 @@ function carsAndStreet(streetY, blueCarsNum, blueCarsSpeed, redCarsNum, redCarsS
             }
         }
     }
-
     return traffic;
-
 }
 
 // ****  FROG ****
 function drawFrogImage(x = 127, y = 129){        
-    base_image = new Image();    
-    base_image.src = 'img/frog.svg';    
+    base_image = new Image();
+    base_image.src = 'img/frog.svg';
     base_image.onload = function(){
         ctx.drawImage(base_image, x, y, frogSize, frogSize);
     }        
@@ -197,10 +162,10 @@ function moveFrog(e){
     drawFrogImage(xFrog, yFrog);
     // check if you won
     didYouWin(yFrog);
-    
+
     console.log({xFrog, yFrog});
 
-    e.preventDefault();       
+    e.preventDefault();
 }
 
 function releasedKey(e){
