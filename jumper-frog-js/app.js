@@ -13,33 +13,33 @@ function getSpeed(min = 1, max = 10) {
     return Math.random() * (max - min) + min;
   }
 
-  // **** Street ****
+// **** Street ****
   
-function twoWayStreet(yLane){
-    let streetBorder = yLane;
-    let centreLine = 5;    
+// function twoWayStreet(yLane){
+//     let streetBorder = yLane;
+//     let centreLine = 5;    
 
-    // draw central line
-    for(let i = 1; i < 9; i++){
-        ctx.beginPath();
-        ctx.moveTo(centreLine, streetBorder * 2);
-        ctx.lineTo(centreLine += 30, streetBorder * 2);
-        centreLine += 30
-        ctx.closePath();
-        ctx.strokeStyle = "gray";
-        ctx.stroke();
-    }
-    // draw street
-    for(let i = 0; i < 2; i++){
-        ctx.beginPath();
-        ctx.strokeStyle = "black";
-        ctx.moveTo(0, streetBorder);    
-        ctx.lineTo(myCanvas.width, streetBorder);
-        streetBorder += 40;
-        ctx.closePath();    
-        ctx.stroke();
-    }
-}
+//     // draw central line
+//     for(let i = 1; i < 9; i++){
+//         ctx.beginPath();
+//         ctx.moveTo(centreLine, streetBorder * 2);
+//         ctx.lineTo(centreLine += 30, streetBorder * 2);
+//         centreLine += 30
+//         ctx.closePath();
+//         ctx.strokeStyle = "gray";
+//         ctx.stroke();
+//     }
+//     // draw street
+//     for(let i = 0; i < 2; i++){
+//         ctx.beginPath();
+//         ctx.strokeStyle = "black";
+//         ctx.moveTo(0, streetBorder);    
+//         ctx.lineTo(myCanvas.width, streetBorder);
+//         streetBorder += 40;
+//         ctx.closePath();    
+//         ctx.stroke();
+//     }
+// }
 
 // **** Cars ****
 
@@ -118,12 +118,46 @@ function slowLaneRight(cars, y, speed){
     return activeCars;
 }
 
-function carsAndStreet(y, blueCarsNum, blueCarsSpeed, redCarsNum, redCarsSpeed ){
+function carsAndStreet(streetY, blueCarsNum, blueCarsSpeed, redCarsNum, redCarsSpeed ){
 
-    twoWayStreet(y);
+    const blueCar = slowLaneLeft(1, streetY + 2, 0.5);
+    const redCar = slowLaneRight(1, streetY + 23, 0.5);
+    
+    const traffic = {
+        blueCar: blueCar,
+        redCar: redCar,
+        street: function (yLane){
+            let streetBorder = yLane;
+            let centreLine = 5;    
+        
+            // draw central line
+            for(let i = 1; i < 9; i++){
+                ctx.beginPath();
+                ctx.moveTo(centreLine, streetBorder * 2);
+                ctx.lineTo(centreLine += 30, streetBorder * 2);
+                centreLine += 30
+                ctx.closePath();
+                ctx.strokeStyle = "gray";
+                ctx.stroke();
+            }
+            // draw street
+            for(let i = 0; i < 2; i++){
+                ctx.beginPath();
+                ctx.strokeStyle = "black";
+                ctx.moveTo(0, streetBorder);    
+                ctx.lineTo(myCanvas.width, streetBorder);
+                streetBorder += 40;
+                ctx.closePath();    
+                ctx.stroke();
+            }
+        }
+    }
 
-    const firstLane = slowLaneLeft(2, y + 2, 0.5);
-    const secondLane = slowLaneRight(4, 42, 0.5);
+    // twoWayStreet(streetY);
+    // const blueCar = slowLaneLeft(1, streetY + 2, 0.5);
+    // const redCar = slowLaneRight(1, streetY + 23, 0.5);
+
+    return traffic;
 
 }
 
@@ -191,19 +225,20 @@ function notification(message){
 
 // *** Game On ***
 
-function draw(firstLane, secondLane){
+function draw(traffic, yLane){
     
-    firstLane.forEach( car => car.drawLeft());
-    secondLane.forEach( car => car.drawRight());
-    twoWayStreet(19);
+    traffic.blueCar.forEach( car => car.drawLeft());
+    traffic.redCar.forEach( car => car.drawRight());
+    traffic.street(yLane);
+    
                   
 }
 
-function animate(firstLane, secondLane){    
+function animate(traffic, yLane){    
     // creates the animation loop    
-    requestAnimationFrame(() => animate(firstLane, secondLane)); 
+    requestAnimationFrame(() => animate(traffic, yLane)); 
     
-    draw(firstLane, secondLane);    
+    draw(traffic, yLane);    
 }
 
 let gameOn = false;
@@ -219,18 +254,20 @@ function startGame(){
     xFrog = 126, yFrog = xFrogStart;      
     drawFrogImage();
 
-    const firstLane = slowLaneLeft(2, 21, 0.5);
-    const secondLane = slowLaneRight(4, 42, 0.5);
+    // const firstLane = slowLaneLeft(2, 21, 0.5);
+    // const secondLane = slowLaneRight(4, 42, 0.5);
+    const yLane = 80
+    let traffic = carsAndStreet(yLane, 2, 1, 4, 1);
         
     // Conditional prevents cars from increasing speed when clickling on startGame constantly.
     if(gameOn === false){
-        animate(firstLane, secondLane);
+        animate(traffic, yLane);
         gameOn = true;
     }            
 }
 
 // draw street 
-twoWayStreet(19)
+// twoWayStreet(19)
 
 
 
