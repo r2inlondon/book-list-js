@@ -256,7 +256,7 @@ function startGame(){
 
     // const firstLane = slowLaneLeft(2, 21, 0.5);
     // const secondLane = slowLaneRight(4, 42, 0.5);
-    const yLane = 80
+    const yLane = 19;
     let traffic = carsAndStreet(yLane, 2, 1, 4, 1);
         
     // Conditional prevents cars from increasing speed when clickling on startGame constantly.
