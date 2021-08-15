@@ -34,9 +34,29 @@ class Car {
         this.speed = speed;
     }
 
+    
+    drawLeft(){
+        //clear car previus position
+        ctx.clearRect(this.x + 30, this.y, carWidthLeft, carHeightLeft);
+        
+        // reset car
+        if(this.x < - carWidthLeft ){
+            this.x = 330;
+        }    
+        // draw car
+        drawCarImageLeft(this.x, this.y);
+
+        // move car position
+        this.x -= this.speed;     
+        drawCarImageLeft(this.x, this.y);
+
+        // check for collisions        
+        this.collision();
+    }
+
     drawRight(){
         //clear car previus position
-        ctx.clearRect(this.x - carWidthRight, this.y, carWidthRight, carHeightRight);
+        ctx.clearRect(this.x - 28, this.y, carWidthRight, carHeightRight);
 
         // reset car
         if(this.x > 300 ){
@@ -53,24 +73,6 @@ class Car {
         this.collision();
     }
 
-    drawLeft(){
-        //clear car previus position
-        ctx.clearRect(this.x + carWidthLeft, this.y, carWidthLeft, carHeightLeft);
-        // ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
-        // reset car
-        if(this.x < - carWidthLeft ){
-            this.x = 330;
-        }    
-        // draw car
-        drawCarImageLeft(this.x, this.y);
-
-        // move car position
-        this.x -= this.speed;     
-        drawCarImageLeft(this.x, this.y);
-
-        // check for collisions        
-        this.collision();
-    }
        
     collision(){
         if( this.x < xFrog + frogSize &&
@@ -106,6 +108,7 @@ function slowLaneRight(cars, y, speed){
 }
 
 function carsAndStreet(streetY, blueCarsNum, blueCarsSpeed, redCarsNum, redCarsSpeed ){
+    
 
     const blueCar = slowLaneLeft(blueCarsNum, streetY + 2, blueCarsSpeed);
     const redCar = slowLaneRight(redCarsNum, streetY + 23, redCarsSpeed);
@@ -235,10 +238,9 @@ function startGame(){
     xFrog = 126, yFrog = xFrogStart;      
     drawFrogImage();
 
-    // const firstLane = slowLaneLeft(2, 21, 0.5);
-    // const secondLane = slowLaneRight(4, 42, 0.5);
+
     const yLane = 80;
-    let traffic = carsAndStreet(yLane, 3, 1, 3, 1);
+    let traffic = carsAndStreet(yLane, 3, 0.1, 3, 0.5);
         
     // Conditional prevents cars from increasing speed when clickling on startGame constantly.
     if(gameOn === false){
