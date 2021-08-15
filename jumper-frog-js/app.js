@@ -3,7 +3,7 @@ const myCanvas = document.getElementById('myCanvas'),
       ctx = myCanvas.getContext('2d');
 
 // Variables
-let xFrogStart = 130, xFrog = 126, yFrog = 128, frogSize = 16, xJump = 28, yJump = 14, carWidth = 30, carHeight = 15;
+let xFrogStart = 130, xFrog = 126, yFrog = 128, frogSize = 16, xJump = 28, yJump = 14, carWidth = 40, carHeight = 15;
 let keys = [];
 
 // Functions
@@ -46,9 +46,9 @@ class Car {
 
     drawLeft(){
         //clear car previus position
-        // ctx.clearRect(this.x , this.y, carWidth, carHeight);
+        ctx.clearRect(this.x + carWidth, this.y, carWidth, carHeight);
         // reset car
-        if(this.x < -30 ){
+        if(this.x < - carWidth ){
             this.x = 330;
         }    
         // draw car
