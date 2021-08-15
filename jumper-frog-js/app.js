@@ -3,18 +3,26 @@ const myCanvas = document.getElementById('myCanvas'),
       ctx = myCanvas.getContext('2d');
 
 // Variables
-let xFrogStart = 130, xFrog = 126, yFrog = 128, frogSize = 16, xJump = 28, yJump = 14, carWidth = 40, carHeight = 15, carWidthLeft = 30, carHeightLeft = 15;
+let xFrogStart = 130, xFrog = 126, yFrog = 128, frogSize = 16, xJump = 28, yJump = 14, carWidthRight = 30, carHeightRight = 15, carWidthLeft = 30, carHeightLeft = 15;
 let keys = [];
 
 // Functions
 
 // **** Cars ****
 
-function drawCarImage(x, y){        
-    car_image = new Image();
-    car_image.src = 'img/car-mint.jpg';
-    car_image.onload = function(){
-        ctx.drawImage(car_image, x, y, carWidthLeft, carHeightLeft);
+function drawCarImageLeft(x, y){        
+    carImageLeft = new Image();
+    carImageLeft.src = 'img/car-mint.jpg';
+    carImageLeft.onload = function(){
+        ctx.drawImage(carImageLeft, x, y, carWidthLeft, carHeightLeft);
+    }        
+}
+
+function drawCarImageRight(x, y){        
+    carImageRight = new Image();
+    carImageRight.src = 'img/red-car-right.jpg';
+    carImageRight.onload = function(){
+        ctx.drawImage(carImageRight, x, y, carWidthRight, carHeightRight);
     }        
 }
 
@@ -28,18 +36,19 @@ class Car {
 
     drawRight(){
         //clear car previus position
-        ctx.clearRect(this.x - 1, this.y, carWidth, carHeight);
+        ctx.clearRect(this.x - carWidthRight, this.y, carWidthRight, carHeightRight);
+
         // reset car
         if(this.x > 300 ){
             this.x = 0;
         }    
         // draw car
-        ctx.beginPath();
-        ctx.fillStyle = this.color;    
+        drawCarImageRight(this.x, this.y);
+
         // move car position
         this.x += this.speed;     
-        ctx.fillRect(this.x, this.y, carWidth, carHeight);    
-        ctx.closePath();
+        drawCarImageRight(this.x, this.y);        
+
         // check for collisions
         this.collision();
     }
@@ -53,11 +62,11 @@ class Car {
             this.x = 330;
         }    
         // draw car
-        drawCarImage(this.x, this.y);
+        drawCarImageLeft(this.x, this.y);
 
         // move car position
         this.x -= this.speed;     
-        drawCarImage(this.x, this.y);
+        drawCarImageLeft(this.x, this.y);
 
         // check for collisions        
         this.collision();
@@ -65,9 +74,9 @@ class Car {
        
     collision(){
         if( this.x < xFrog + frogSize &&
-            this.x + carWidth > xFrog &&
+            this.x + carWidthLeft > xFrog &&
             this.y < yFrog + frogSize &&
-            this.y + carHeight > yFrog
+            this.y + carHeightLeft > yFrog
             ){
               notification('Frog is dead');
         }
@@ -85,7 +94,7 @@ function slowLaneLeft(cars, y, speed){
     return activeCars;
 }
 
-// create cars, in the lane, direction left
+// create cars, in the lane, direction right
 function slowLaneRight(cars, y, speed){
     let slowLaneCarDistance = (myCanvas.width / cars ) - 40;
 
