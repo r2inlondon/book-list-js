@@ -10,6 +10,14 @@ let keys = [];
 
 // **** Cars ****
 
+function drawCarImage(x, y){        
+    car_image = new Image();
+    car_image.src = 'img/purple-car.svg';
+    car_image.onload = function(){
+        ctx.drawImage(car_image, x, y, carWidth, carHeight);
+    }        
+}
+
 class Car {
     constructor(x, y, color, speed){
         this.x = x;
@@ -38,18 +46,18 @@ class Car {
 
     drawLeft(){
         //clear car previus position
-        ctx.clearRect(this.x + 1, this.y, carWidth, carHeight);
+        // ctx.clearRect(this.x , this.y, carWidth, carHeight);
         // reset car
         if(this.x < -30 ){
             this.x = 330;
         }    
         // draw car
-        ctx.beginPath();
-        ctx.fillStyle = this.color;    
+        drawCarImage(this.x, this.y);
+
         // move car position
         this.x -= this.speed;     
-        ctx.fillRect(this.x, this.y, carWidth, carHeight);    
-        ctx.closePath();
+        drawCarImage(this.x, this.y);
+
         // check for collisions        
         this.collision();
     }
@@ -220,7 +228,7 @@ function startGame(){
     // const firstLane = slowLaneLeft(2, 21, 0.5);
     // const secondLane = slowLaneRight(4, 42, 0.5);
     const yLane = 80;
-    let traffic = carsAndStreet(yLane, 4, 1, 3, 1);
+    let traffic = carsAndStreet(yLane, 1, 1, 3, 1);
         
     // Conditional prevents cars from increasing speed when clickling on startGame constantly.
     if(gameOn === false){
