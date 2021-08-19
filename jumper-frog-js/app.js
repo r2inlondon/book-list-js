@@ -13,17 +13,17 @@ let keys = [];
 function drawCarImageLeft(x, y){        
     carImageLeft = new Image();
     carImageLeft.src = 'img/car-mint.jpg';
-    carImageLeft.onload = function(){
-        ctx.drawImage(carImageLeft, x, y, carWidthLeft, carHeightLeft);
-    }        
+    
+    ctx.drawImage(carImageLeft, x, y, carWidthLeft, carHeightLeft);
+            
 }
 
 function drawCarImageRight(x, y){        
     carImageRight = new Image();
     carImageRight.src = 'img/red-car-right.jpg';
-    carImageRight.onload = function(){
-        ctx.drawImage(carImageRight, x, y, carWidthRight, carHeightRight);
-    }        
+    
+    ctx.drawImage(carImageRight, x, y, carWidthRight, carHeightRight);
+            
 }
 
 class Car {
@@ -37,7 +37,7 @@ class Car {
     
     drawLeft(){
         //clear car previus position
-        ctx.clearRect(this.x + 30, this.y, carWidthLeft, carHeightLeft);
+        // ctx.clearRect(this.x + 30, this.y, carWidthLeft, carHeightLeft);        
         
         // reset car
         if(this.x < - carWidthLeft ){
@@ -48,7 +48,7 @@ class Car {
 
         // move car position
         this.x -= this.speed;     
-        drawCarImageLeft(this.x, this.y);
+        drawCarImageLeft(this.x, this.y);        
 
         // check for collisions        
         this.collision();
@@ -56,7 +56,7 @@ class Car {
 
     drawRight(){
         //clear car previus position
-        ctx.clearRect(this.x - 28, this.y, carWidthRight, carHeightRight);
+        // ctx.clearRect(this.x - 28, this.y, carWidthRight, carHeightRight);
 
         // reset car
         if(this.x > 300 ){
@@ -149,9 +149,9 @@ function carsAndStreet(streetY, blueCarsNum, blueCarsSpeed, redCarsNum, redCarsS
 function drawFrogImage(x = 127, y = 129){        
     base_image = new Image();
     base_image.src = 'img/frog.svg';
-    base_image.onload = function(){
-        ctx.drawImage(base_image, x, y, frogSize, frogSize);
-    }        
+    
+    ctx.drawImage(base_image, x, y, frogSize, frogSize);
+            
 }
 
 function moveFrog(e){
@@ -178,9 +178,9 @@ function moveFrog(e){
         yFrog += yJump;
     }    
     // clear canvas
-    ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
+    // ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
     // draw frog on new position
-    drawFrogImage(xFrog, yFrog);
+    // drawFrogImage(xFrog, yFrog);
     // check if you won
     didYouWin(yFrog);
 
@@ -210,18 +210,22 @@ function notification(message){
 // *** Game On ***
 
 function draw(traffic, yLane){
-    
+
+    ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
+        
     traffic.blueCar.forEach( car => car.drawLeft());
     traffic.redCar.forEach( car => car.drawRight());
+    
     traffic.street(yLane);
     
-                  
+    drawFrogImage(xFrog, yFrog);
+                      
 }
 
 function animate(traffic, yLane){    
     // creates the animation loop    
-    requestAnimationFrame(() => animate(traffic, yLane)); 
-    
+    requestAnimationFrame(() => animate(traffic, yLane));
+            
     draw(traffic, yLane);    
 }
 
@@ -240,7 +244,7 @@ function startGame(){
 
 
     const yLane = 80;
-    let traffic = carsAndStreet(yLane, 3, 0.1, 3, 0.5);
+    let traffic = carsAndStreet(yLane, 3, 1, 3, 0.5);
         
     // Conditional prevents cars from increasing speed when clickling on startGame constantly.
     if(gameOn === false){
